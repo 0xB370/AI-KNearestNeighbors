@@ -14,19 +14,43 @@ getClassQuantity(tags) ej: [clase1, clase2, clase1, clase1] return 2
 """
 testPoints = [[31,4]] #testPoints
 points = [[31,3],[31,3], [13,3], [54,3]] #points
-tags = np.array([4,5,2,4]) # tags
+tags = np.array([4,2,2,4]) # tags
 K = 4
 tagsPredicted = [] # [3,4,5,6]
+def contarClases(tagsOrdered):
+    cantidadMaxima = 0
+    tag = 0
+    tags = []
+    arr = []
+    for i in range(len(tagsOrdered)):
+        cant = 0
+        for j in range(len(tagsOrdered)):
+            if(tagsOrdered[j] == tagsOrdered[i]):
+                cant = cant + 1
+        if(cant > cantidadMaxima):
+            cantidadMaxima = cant
+            tag = tagsOrdered[i]
+            tags.append(tag)
+            arr = [[cantidadMaxima,tag,i]]
+        elif((cant == cantidadMaxima) and (tag != tagsOrdered[i])):
+            cantidadMaxima = cant
+            tag = tagsOrdered[i]
+            if(tag not in tags):
+                arr.append([cantidadMaxima,tag,i])
+    return arr
+
 def getClosest(distances,tagsOrdered):
-        tag = tagsOrdered[0]
-        dist = distances[0]
-        for i in range(len(distances)):
-            print(distances[i])
-            print(tagsOrdered[i])
-            if distances[i] < dist:
-                tag = tagsOrdered[i]
-                dist = distances[i]
-        return [tag,dist]
+    tags = contarClases(tagsOrdered)
+    # return tags[0][1]
+    distMin = distances[tags[0][2]]
+    ganador = [distMin,tags[0][1]]
+    if(len(tags)>1):
+        for i in range(len(tags)):
+            if(distances[tags[i][2]]<distMin):
+                distMin = distances[i]
+                ganador = [distMin,tags[i][1]]
+    return ganador
+
             
 ## Iterate through each value in test data 
 for val in testPoints:
@@ -48,8 +72,12 @@ for val in testPoints:
     # slice to get the K first entries
     distances = euc_dis[0:K]
     tagsOrdered = temp_target[0:K]
-
+    print("Desde Aca Arranca")
+    print(tagsOrdered)
+    print(distances)
+    var2 = contarClases(tagsOrdered)
     var1 = getClosest(distances,tagsOrdered)
+    print(var2)
     print(var1)
 
     """
