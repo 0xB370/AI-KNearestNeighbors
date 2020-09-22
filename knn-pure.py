@@ -15,9 +15,19 @@ getClassQuantity(tags) ej: [clase1, clase2, clase1, clase1] return 2
 testPoints = [[31,4]] #testPoints
 points = [[31,3],[31,3], [13,3], [54,3]] #points
 tags = np.array([4,5,2,4]) # tags
-K = 3
+K = 4
 tagsPredicted = [] # [3,4,5,6]
-
+def getClosest(distances,tagsOrdered):
+        tag = tagsOrdered[0]
+        dist = distances[0]
+        for i in range(len(distances)):
+            print(distances[i])
+            print(tagsOrdered[i])
+            if distances[i] < dist:
+                tag = tagsOrdered[i]
+                dist = distances[i]
+        return [tag,dist]
+            
 ## Iterate through each value in test data 
 for val in testPoints:
     euc_dis = []
@@ -38,6 +48,9 @@ for val in testPoints:
     # slice to get the K first entries
     distances = euc_dis[0:K]
     tagsOrdered = temp_target[0:K]
+
+    var1 = getClosest(distances,tagsOrdered)
+    print(var1)
 
     """
     # PENDIENTE - Implementar un una función getClosest(distances,tagsOrdered) y devuelva  el tag según politica:
