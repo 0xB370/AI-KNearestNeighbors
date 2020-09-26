@@ -13,10 +13,10 @@ metodo distance(p1,p2) devuelva distancia
 getClassQuantity(tags) ej: [clase1, clase2, clase1, clase1] return 2 
 
 """
-testPoints = [[31,4]] #testPoints
+testPoints = [[31,4],[56,8]] #testPoints
 points = [[31,3],[31,3], [13,3], [54,3]] #points
-tags = np.array([4,2,5,1]) # tags
-K = 4
+tags = np.array([5,2,2,1]) # tags
+K = 3
 tagsPredicted = [] # [3,4,5,6]
             
 ## Iterate through each value in test data 
@@ -44,7 +44,9 @@ for val in testPoints:
     print(distances)
     var1 = gc.getClosest(distances,tagsOrdered)
     print(var1)
-
+    tagsPredicted.append(var1[1])
+    
+    print(tagsPredicted)
     """
     # PENDIENTE - Implementar un una función getClosest(distances,tagsOrdered) y devuelva  el tag según politica:
         Se elige como clase ganadora a la que tiene major cantidad de elementos
