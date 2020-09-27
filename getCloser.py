@@ -25,7 +25,7 @@ def getClosest(distances,tagsOrdered):
     # return tags[0][1]
     distMin = distances[tags[0][2]]
     ganador = [distMin,tags[0][1]]
-   
+    
     if(len(tags)>1):
         for i in range(len(tags)):
             if(distances[tags[i][2]]<distMin):
