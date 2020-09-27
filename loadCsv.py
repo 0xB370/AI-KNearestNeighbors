@@ -4,7 +4,7 @@ from knnPure import KnnClasifier
 from sklearn.model_selection import train_test_split
 df = pd.read_csv('datasets-short.csv')
 
-K = 2
+K = 5
 x = df['Age'].to_numpy()
 y = df['EstimatedSalary'].to_numpy()
 tags = df['Purchased'].to_numpy()
