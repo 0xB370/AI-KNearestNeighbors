@@ -20,35 +20,33 @@ class KnnClasifier:
 #tags = np.array([5,2,2,1]) # tags
 #K = 3
 
-
-
-    def predict(self, testPoints, points, tags, K):
+    def predict(self, testPoint, points, tags, K):
         tagsPredicted = [] # [3,4,5,6]
         ## Iterate through each value in test data 
-        for val in testPoints:
-            euc_dis = []
-            ## Finding eucledian distance for all points in training data 
-            for point in points:
-                euc_dis.append(((val[0]-point[0])**2+(val[1]-point[1])**2)**0.5)
-                #print(euc_dis)
-            temp_target = tags
-            ## Use bubble sort to sort the euclidean distances 
-            for i in range(len(euc_dis)):
-                for j in range(0,len(euc_dis)-i-1):
-                    if(euc_dis[j+1] < euc_dis[j]):
-                        euc_dis[j], euc_dis[j+1] = euc_dis[j+1], euc_dis[j]
-                        ## Sort the classes along with the eucledian distances 
-                        ## to maintain relevancy 
-                        temp_target[j], temp_target[j+1] = temp_target[j+1], temp_target[j] 
+        
+        euc_dis = []
+        ## Finding eucledian distance for all points in training data 
+        for point in points:
+            euc_dis.append(((testPoint[0]-point[0])**2+(testPoint[1]-point[1])**2)**0.5)
+            #print(euc_dis)
+        temp_target = tags
+        ## Use bubble sort to sort the euclidean distances 
+        for i in range(len(euc_dis)):
+            for j in range(0,len(euc_dis)-i-1):
+                if(euc_dis[j+1] < euc_dis[j]):
+                    euc_dis[j], euc_dis[j+1] = euc_dis[j+1], euc_dis[j]
+                    ## Sort the classes along with the eucledian distances 
+                    ## to maintain relevancy 
+                    temp_target[j], temp_target[j+1] = temp_target[j+1], temp_target[j] 
+        
+        # slice to get the K first entries
+        distances = euc_dis[0:K]
+        tagsOrdered = temp_target[0:K]
+
+        var1 = gc.getClosest(distances,tagsOrdered)
             
-            # slice to get the K first entries
-            distances = euc_dis[0:K]
-            tagsOrdered = temp_target[0:K]
-    
-            var1 = gc.getClosest(distances,tagsOrdered)
-           
-            tagsPredicted.append(var1[1])
-            
+        tagsPredicted.append(var1[1])
+        
         return tagsPredicted
             
           
@@ -81,3 +79,5 @@ class KnnClasifier:
         """
             
         # prediction = {"points" : testPoints, "tags" : tagsPredicted}
+        
+
