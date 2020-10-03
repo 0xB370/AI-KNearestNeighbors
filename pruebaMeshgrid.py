@@ -146,7 +146,7 @@ X2 = generate_random_points(20, 1, 2)
 # BETO
 X3 = generate_random_points(20, 2, 3)
 X4 = generate_random_points(20, -1, 0)
-X5 = generate_random_points(20, -1, 5)
+X5 = generate_random_points(21, -1, 5)
 
 # new_point = generate_random_points(1, 0, 2)
 
@@ -475,9 +475,10 @@ plt.show()
 """
 
 # apply kNN with k=1 on the same set of training samples
-# Con k=39 ya se comienza a romper y con k=40 ya se va de tema knn = kAnalysis(X1, X2, X3, X4, X5, k=5, distance=0)
-# knn.prepare_test_samples(low=-1, high=5, step=0.02)
-# knn.analyse()
-# knn.analyse_prueba([[0.5, 0.5], [0.5, 1], [0.5, 1.5], [1, 0.5], [1, 1], [1, 1.5], [1.5, 0.5], [1.5, 1], [1.5, 1.5]])
-# knn.plot()
-# plt.show()
+# Con k=39 ya se comienza a romper y con k=40 ya se va de tema 
+knn = kAnalysis(X1, X2, X3, X4, X5, k=5, distance=0)
+knn.prepare_test_samples(low=-1, high=5, step=0.02)
+knn.analyse()
+knn.analyse_prueba([[0.5, 0.5], [0.5, 1], [0.5, 1.5], [1, 0.5], [1, 1], [1, 1.5], [1.5, 0.5], [1.5, 1], [1.5, 1.5]])
+knn.plot()
+plt.show()

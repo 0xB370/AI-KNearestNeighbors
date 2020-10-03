@@ -25,15 +25,20 @@ for i in range(x.size):
 
 result = []
 for item in pointsToPlot.items():
-    i =  np.array(item[1]) # no funciona
-    k = (70 - 10) * np.random.random_sample((11, 2)) + 10 # funciona
-    result.append(k)
+    w = [[0.15060145, 0.87236189],
+       [0.22472043, 0.50416235],
+       [0.41595454, 0.02640976]];
+    z = item[1];
+    i =  np.array(z) # no funciona
+    k = (10 - 1) * np.random.random_sample((2, 2)) + 1 # funciona
+    j = np.array(w)
+    result.append(i)
     
 t = tuple(result)
 
 
-knn = kAnalysis(*t, k=5, distance=0)
-knn.prepare_test_samples(low=-1, high=70, step=0.3)
+knn = kAnalysis(*t, k=2, distance=0)
+knn.prepare_test_samples(low=-1, high=10, step=0.03)
 knn.analyse()
 knn.plot()
 plt.show()
