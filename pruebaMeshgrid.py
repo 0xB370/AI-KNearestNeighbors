@@ -144,7 +144,7 @@ X1 = np.array([[0.15060145, 0.87236189],
        [0.50801991, 0.02214336]])
 X2 = generate_random_points(20, 1, 2)
 # BETO
-X3 = generate_random_points(20, 2, 3)
+X3 = generate_random_points(21, 2, 3)
 X4 = generate_random_points(20, -1, 0)
 
 # new_point = generate_random_points(1, 0, 2)
@@ -339,8 +339,8 @@ class Analysis():
     for i, x in enumerate(self.x_train):
       plot.plot(*x.T, mpl_colors[i] + 'o')
     
-    for i, x in enumerate(self.classified_prueba):
-      plot.plot(*x.T, mpl_colors[i] + '^')
+    """ for i, x in enumerate(self.classified_prueba):
+      plot.plot(*x.T, mpl_colors[i] + '^') """
 
     # plot test samples
     # BETO
@@ -349,7 +349,7 @@ class Analysis():
       plot.plot(*x.T, mpl_colors[i] + ',')
   
 
-  def analyse_prueba(self, data_prueba):
+  """ def analyse_prueba(self, data_prueba):
     self.classified_prueba = []
     self.x_prueba = np.array(data_prueba)
     self.y_prueba = self.nn.predict(self.x_prueba)
@@ -362,7 +362,7 @@ class Analysis():
     # Eso hacía que se rompa todo e imprima cualquier cosa en los labels del eje y
     # PENDIENTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
     # Cuando le agrego X4 al kAnalysis también se rompe
-    self.classified_prueba.pop()
+    self.classified_prueba.pop() """
     
 
 
@@ -391,6 +391,13 @@ class kNearestNeighbors(NearestNeighbor):
 
     # no. of classes = max label (labels starts from 0)
     # np.amax = Return the maximum of an array or maximum along an axis.
+    if isinstance(self.y_train[0], np.ndarray):
+      print(type(self.y_train[0]))
+      flat_list = []
+      for sublist in self.y_train:
+          for item in sublist:
+              flat_list.append(item)
+      self.y_train = flat_list
     nof_classes = np.amax(self.y_train) + 1
 
     # loop over all test samples
@@ -477,6 +484,6 @@ plt.show()
 knn = kAnalysis(X1, X2, X3, k=5, distance=0)
 knn.prepare_test_samples(low=-1, high=3, step=0.02)
 knn.analyse()
-knn.analyse_prueba([[0.5, 0.5], [0.5, 1], [0.5, 1.5], [1, 0.5], [1, 1], [1, 1.5], [1.5, 0.5], [1.5, 1], [1.5, 1.5]])
+# knn.analyse_prueba([[0.5, 0.5], [0.5, 1], [0.5, 1.5], [1, 0.5], [1, 1], [1, 1.5], [1.5, 0.5], [1.5, 1], [1.5, 1.5]])
 knn.plot()
 plt.show()
