@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 import pruebaMeshgrid as generate_random_points
 df = pd.read_csv('datasets-short.csv')
 
-K = 5
+K = 2
 x = df['Age'].to_numpy()
 y = df['EstimatedSalary'].to_numpy()
 tags = df['Purchased'].to_numpy()
@@ -38,7 +38,7 @@ t = tuple(result)
 
 
 knn = kAnalysis(*t, k=2, distance=0)
-knn.prepare_test_samples(low=-1, high=10, step=0.03)
+knn.prepare_test_samples(low=-1, high=10, step=0.05)
 knn.analyse()
 knn.plot()
 plt.show()
