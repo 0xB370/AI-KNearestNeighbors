@@ -45,9 +45,9 @@ class KnnClasifier:
 
         var1 = gc.getClosest(distances,tagsOrdered)
             
-        tagsPredicted.append(var1[1])
+        closestTag = var1[1]
         
-        return tagsPredicted
+        return closestTag
             
           
             
