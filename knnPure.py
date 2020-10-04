@@ -2,6 +2,7 @@
 from sklearn.model_selection import train_test_split
 import numpy as np
 import getCloser as gc
+import getCloser2 as gc
 ## K Nearest Neighbors 
 
 """
@@ -43,9 +44,9 @@ class KnnClasifier:
             distances = euc_dis[0:K]
             tagsOrdered = temp_target[0:K]
     
-            var1 = gc.getClosest(distances,tagsOrdered)
+            var1 = gc.weightedKNN(tagsOrdered,distances)
            
-            tagsPredicted.append(var1[1])
+            tagsPredicted.append(var1[0])
             
         return tagsPredicted
             
