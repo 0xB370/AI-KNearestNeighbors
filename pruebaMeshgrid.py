@@ -5,6 +5,7 @@
 # it is kind of standard to import numpy as np and pyplot as plt
 import numpy as np
 import matplotlib.pyplot as plt
+from knnPure import KnnClasifier
 
 # used later to apply different colors in for loops
 mpl_colors = ('r', 'b', 'g', 'c', 'm', 'y', 'k', 'w')
@@ -194,8 +195,11 @@ class NearestNeighbor():
     """
     predictions = []  # placeholder for N labels
 
+    knn = KnnClasifier()
+    tagsPredicted = knn.predict(x, self.x_train, self.y_train, 1)
+
     # loop over all test samples
-    for x_test in x:
+    """ for x_test in x:
       # array of distances between current test and all training samples
       # BETO
       # Si en el __init__ se le pasa un distance=0, aplica valor absoluto
@@ -218,7 +222,9 @@ class NearestNeighbor():
       # add corresponding label
       predictions.append(self.y_train[min_index])
 
-    return predictions
+    return predictions """
+
+    return tagsPredicted
 
 
 
@@ -347,6 +353,7 @@ class Analysis():
     # Yo cambiaría el comentario de arriba por "pintando la grilla"
     for i, x in enumerate(self.classified):
       plot.plot(*x.T, mpl_colors[i] + ',')
+    plt.show()
   
 
   """ def analyse_prueba(self, data_prueba):
@@ -400,10 +407,15 @@ class kNearestNeighbors(NearestNeighbor):
       self.y_train = flat_list
     nof_classes = np.amax(self.y_train) + 1
 
+    knn = KnnClasifier()
+    tagsPredicted = knn.predict(x, self.x_train, self.y_train, 1)
+
+
     # loop over all test samples
-    for x_test in x:
+    """ for x_test in x:
       # array of distances between current test and all training samples
       distances = np.sum(self.distance(self.x_train - x_test), axis=1)
+     
 
       # placeholder for labels votes
       # np.zeros = Return a new array of given shape and type, filled with zeros.
@@ -424,9 +436,10 @@ class kNearestNeighbors(NearestNeighbor):
         votes[neighbor_label] += 1
 
       # predicted label is the one with most votes
-      predictions.append(np.argmax(votes))
+      predictions.append(np.argmax(votes)) """
 
-    return predictions
+    # return predictions
+    return tagsPredicted
 
 
 
@@ -479,11 +492,11 @@ l1.plot()
 plt.show()
 """
 
-# apply kNN with k=1 on the same set of training samples
+""" # apply kNN with k=1 on the same set of training samples
 # Con k=39 ya se comienza a romper y con k=40 ya se va de tema
 knn = kAnalysis(X1, X2, X3, k=5, distance=0)
 knn.prepare_test_samples(low=-1, high=3, step=0.02)
 knn.analyse()
 # knn.analyse_prueba([[0.5, 0.5], [0.5, 1], [0.5, 1.5], [1, 0.5], [1, 1], [1, 1.5], [1.5, 0.5], [1.5, 1], [1.5, 1.5]])
 knn.plot()
-plt.show()
+plt.show() """
