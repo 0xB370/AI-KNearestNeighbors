@@ -17,7 +17,7 @@ trainPoints, testPoints = train_test_split(points, test_size=0.1, shuffle=False)
 testTags, tagsExpected = train_test_split(tags, test_size=0.1, shuffle=False)
 
 knn = KnnClasifier()
-tagsPredicted = knn.predict([9,9], points, tags, K)
+tagsPredicted = knn.predict(testPoints, trainPoints, testTags, K)
 
 print(tagsExpected)
 print(tagsPredicted)
