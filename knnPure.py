@@ -44,9 +44,14 @@ class KnnClasifier:
             distances = euc_dis[0:K]
             tagsOrdered = temp_target[0:K]
     
-            var1 = gc.weightedKNN(tagsOrdered,distances)
+            #var1 = gc.weightedKNN(tagsOrdered,distances)
+            vote = [0,0,0]
+            ## We are using only the first three entries (K = 3)
+            for i in range(10):
+                vote[temp_target[i]] += 1
+            tagsPredicted.append(vote.index(max(vote)))
            
-            tagsPredicted.append(var1[0])
+            #tagsPredicted.append(var1[0])
             
         return tagsPredicted
             
