@@ -195,11 +195,11 @@ class NearestNeighbor():
     """
     predictions = []  # placeholder for N labels
 
-    knn = KnnClasifier()
+    """ knn = KnnClasifier()
     tagsPredicted = knn.predict(x, self.x_train, self.y_train, 1)
-
+ """
     # loop over all test samples
-    """ for x_test in x:
+    for x_test in x:
       # array of distances between current test and all training samples
       # BETO
       # Si en el __init__ se le pasa un distance=0, aplica valor absoluto
@@ -222,9 +222,9 @@ class NearestNeighbor():
       # add corresponding label
       predictions.append(self.y_train[min_index])
 
-    return predictions """
+    return predictions
 
-    return tagsPredicted
+    # return tagsPredicted
 
 
 
@@ -399,7 +399,6 @@ class kNearestNeighbors(NearestNeighbor):
     # no. of classes = max label (labels starts from 0)
     # np.amax = Return the maximum of an array or maximum along an axis.
     if isinstance(self.y_train[0], np.ndarray):
-      print(type(self.y_train[0]))
       flat_list = []
       for sublist in self.y_train:
           for item in sublist:
@@ -407,12 +406,12 @@ class kNearestNeighbors(NearestNeighbor):
       self.y_train = flat_list
     nof_classes = np.amax(self.y_train) + 1
 
-    knn = KnnClasifier()
-    tagsPredicted = knn.predict(x, self.x_train, self.y_train, 1)
+    """ knn = KnnClasifier()
+    tagsPredicted = knn.predict(x, self.x_train, self.y_train, 1) """
 
 
     # loop over all test samples
-    """ for x_test in x:
+    for x_test in x:
       # array of distances between current test and all training samples
       distances = np.sum(self.distance(self.x_train - x_test), axis=1)
      
@@ -436,10 +435,10 @@ class kNearestNeighbors(NearestNeighbor):
         votes[neighbor_label] += 1
 
       # predicted label is the one with most votes
-      predictions.append(np.argmax(votes)) """
+      predictions.append(np.argmax(votes))
 
-    # return predictions
-    return tagsPredicted
+    return predictions
+    # return tagsPredicted
 
 
 
@@ -474,6 +473,9 @@ class kAnalysis(Analysis):
     # train classifier (knn this time)
     self.nn = kNearestNeighbors(k, distance)
     self.nn.train(x, y)
+  
+  def precision(self):
+    return self.nn
 
 
 

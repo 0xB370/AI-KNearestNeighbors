@@ -36,34 +36,35 @@ X = dataset.iloc[:, [2, 3]].values
 #Extract "Purchased" values (1 if purchased, 0 if not)
 Y = dataset.iloc[:, 4].values
 
-# print(dataset.values)
-
-""" for y_elto in Y:
-    if (y_elto == 1):
-        print(y_elto) """
+trainPoints, testPoints = train_test_split(X, test_size=0.1, shuffle=False)
+testTags, tagsExpected = train_test_split(Y, test_size=0.1, shuffle=False)
 
 C0 = []
 C1 = []
 
-for ix in range(len(Y)):
+for ix in range(len(testTags)):
     elto = []
-    for item in X[ix]:
+    for item in trainPoints[ix]:
         elto.append(item)
     if (Y[ix] == 0):
         C0.append(elto)
     if (Y[ix] == 1):
         C1.append(elto)
 
-# print(np.array(C1))
+
+
 
 
 # apply kNN with k=1 on the same set of training samples
 # Con k=39 ya se comienza a romper y con k=40 ya se va de tema
-knnAc = msg.kNearestNeighbors()
-knnAc = msg.kNearestNeighbors(knnAc, X)
-print(knnAc)
 knn = msg.kAnalysis(np.array(C0), np.array(C1), k=5, distance=0)
 knn.prepare_test_samples(low=0, high=100, step=0.5)
 knn.analyse()
-# knn.analyse_prueba([[0.5, 0.5], [0.5, 1], [0.5, 1.5], [1, 0.5], [1, 1], [1, 1.5], [1.5, 0.5], [1.5, 1], [1.5, 1.5]])
+# Cálculo de precisión
+nn = knn.precision()
+print(testPoints)
+tagsPredicted = nn.predict(np.array(testPoints))
+print(tagsPredicted)
+print(accuracy_score(tagsExpected, tagsPredicted))
+####################
 knn.plot()
