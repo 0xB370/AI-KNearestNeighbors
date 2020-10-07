@@ -65,14 +65,12 @@ for ix in range(len(testTags)):
 for ix in range(len(C)):
     C[ix] = np.array(C[ix])
 
-t = tuple(C)
-
 
 
 
 # apply kNN with k=1 on the same set of training samples
 # Con k=39 ya se comienza a romper y con k=40 ya se va de tema
-knn = msg.kAnalysis(*t, k=5, distance=0)
+knn = msg.kAnalysis(*C, k=5, distance=0)
 knn.prepare_test_samples(low=0, high=100, step=0.5)
 knn.analyse()
 # Cálculo de precisión
