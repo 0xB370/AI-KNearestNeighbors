@@ -41,13 +41,13 @@ class KnnClasifier:
                         temp_target[j], temp_target[j+1] = temp_target[j+1], temp_target[j] 
             
             # slice to get the K first entries
-            distances = euc_dis[0:K]
-            tagsOrdered = temp_target[0:K]
+            #distances = euc_dis[0:K]
+            #tagsOrdered = temp_target[0:K]
     
             #var1 = gc.weightedKNN(tagsOrdered,distances)
-            vote = [0,0,0]
+            vote = [0,0,0,0]
             ## We are using only the first three entries (K = 3)
-            for i in range(10):
+            for i in range(4):
                 vote[temp_target[i]] += 1
             tagsPredicted.append(vote.index(max(vote)))
            

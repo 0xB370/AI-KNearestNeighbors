@@ -196,7 +196,7 @@ class NearestNeighbor():
     predictions = []  # placeholder for N labels
 
     knn = KnnClasifier()
-    tagsPredicted = knn.predict(x, self.x_train, self.y_train, 1)
+    tagsPredicted = knn.predict(x, self.x_train, self.y_train, 3)
 
     # loop over all test samples
     """ for x_test in x:
@@ -408,7 +408,7 @@ class kNearestNeighbors(NearestNeighbor):
     nof_classes = np.amax(self.y_train) + 1
 
     knn = KnnClasifier()
-    tagsPredicted = knn.predict(x, self.x_train, self.y_train, 1)
+    tagsPredicted = knn.predict(x, self.x_train, self.y_train, 3)
 
 
     # loop over all test samples
