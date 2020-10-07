@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 import pruebaMeshgrid as msg
 
-dataset = pd.read_csv('datasets_1846_3197_Social_Network_Ads.csv')
+dataset = pd.read_csv('datasets_1846_3197_Social_Network_Ads-3.csv')
 
 """ K = 5
 x = df['Age'].to_numpy()
@@ -36,28 +36,43 @@ X = dataset.iloc[:, [2, 3]].values
 #Extract "Purchased" values (1 if purchased, 0 if not)
 Y = dataset.iloc[:, 4].values
 
+
+# Creo un array con los distintos tags
+etiquetas = []
+newY = Y
+while len(newY) > 0:
+  etiquetas.append(newY[0])
+  newY = list(filter(lambda y : y != newY[0], newY))
+
+
 trainPoints, testPoints = train_test_split(X, test_size=0.1, shuffle=False)
 testTags, tagsExpected = train_test_split(Y, test_size=0.1, shuffle=False)
 
-C0 = []
-C1 = []
+
+# Relleno y les doy el formato a los arrays para pasarle a la función del knn
+C = []
+for ix in range(len(etiquetas)):
+    C.append([])
 
 for ix in range(len(testTags)):
     elto = []
     for item in trainPoints[ix]:
         elto.append(item)
-    if (Y[ix] == 0):
-        C0.append(elto)
-    if (Y[ix] == 1):
-        C1.append(elto)
+    for yx in range(len(etiquetas)):
+        if (testTags[ix] == etiquetas[yx]):
+            C[yx].append(elto)
 
+for ix in range(len(C)):
+    C[ix] = np.array(C[ix])
+
+t = tuple(C)
 
 
 
 
 # apply kNN with k=1 on the same set of training samples
 # Con k=39 ya se comienza a romper y con k=40 ya se va de tema
-knn = msg.kAnalysis(np.array(C0), np.array(C1), k=5, distance=0)
+knn = msg.kAnalysis(*t, k=5, distance=0)
 knn.prepare_test_samples(low=0, high=100, step=0.5)
 knn.analyse()
 # Cálculo de precisión
@@ -65,6 +80,7 @@ nn = knn.precision()
 print(testPoints)
 tagsPredicted = nn.predict(np.array(testPoints))
 print(tagsPredicted)
-print(accuracy_score(tagsExpected, tagsPredicted))
+# ESTA LINEA NO FUNCIONA SI SE USAN TAGS CON STRINGS
+# print(accuracy_score(tagsExpected, tagsPredicted))
 ####################
 knn.plot()
