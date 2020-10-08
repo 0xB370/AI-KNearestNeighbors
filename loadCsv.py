@@ -43,6 +43,7 @@ newY = Y
 while len(newY) > 0:
   etiquetas.append(newY[0])
   newY = list(filter(lambda y : y != newY[0], newY))
+print(etiquetas)
 
 
 trainPoints, testPoints = train_test_split(X, test_size=0.1, shuffle=False)
@@ -81,4 +82,4 @@ print(tagsPredicted)
 # ESTA LINEA NO FUNCIONA SI SE USAN TAGS CON STRINGS
 # print(accuracy_score(tagsExpected, tagsPredicted))
 ####################
-knn.plot()
+knn.plot(etiquetas=etiquetas)

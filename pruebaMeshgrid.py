@@ -328,7 +328,7 @@ class Analysis():
     
 
 
-  def plot(self, t=''):
+  def plot(self, t='', etiquetas=[]):
     """Visualize the result of classification"""
     plot = init_plot(self.range, self.range)
     plot.set_title(t)
@@ -343,7 +343,8 @@ class Analysis():
 
     # plot training samples
     for i, x in enumerate(self.x_train):
-      plot.plot(*x.T, mpl_colors[i] + 'o')
+      plot.plot(*x.T, mpl_colors[i] + 'o', label=etiquetas[i])
+    plt.legend()
     
     """ for i, x in enumerate(self.classified_prueba):
       plot.plot(*x.T, mpl_colors[i] + '^') """
