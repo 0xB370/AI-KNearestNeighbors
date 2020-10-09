@@ -11,8 +11,32 @@ dataset = pd.read_csv('datasets_1846_3197_Social_Network_Ads-3.csv')
 
 class CSVUtilities: 
     def getTupleToPrint(self, dataset):
+        #Extract all row and columns 3 and 5
+        X = dataset.iloc[:, [2, 3]].values
+        #Extract "Purchased" values (1 if purchased, 0 if not)
+        Y = dataset.iloc[:, 4].values
+        # Creo un array con los distintos tags
+        etiquetas = []
+        newY = Y
+        while len(newY) > 0:
+            etiquetas.append(newY[0])
+            newY = list(filter(lambda y : y != newY[0], newY))
+        # Creo tantos arrays como clases haya en el dataset
+        C = []
+        for ix in range(len(etiquetas)):
+            C.append([])
+        # Relleno y les doy el formato a los arrays para pasarle a la función del knn
+        for ix in range(len(Y)):
+            elto = []
+            for item in X[ix]:
+                elto.append(item)
+            for yx in range(len(etiquetas)):
+                if (Y[ix] == etiquetas[yx]):
+                    C[yx].append(elto)
+        for ix in range(len(C)):
+            C[ix] = np.array(C[ix])
+        return C
         
-
     def getMin(self, dataset):
         X = dataset.iloc[:, [0, 1]].values
         return X.min()
