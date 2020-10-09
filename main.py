@@ -4,6 +4,8 @@ import pandas as pd
 from table import Table
 import numpy as np
 import matplotlib.pyplot as plt
+import pruebaMeshgrid as msg
+import loadCsv as cu
 
 def show_entry_fields():
     print("First Name: %s\nLast Name: %s" % (e1.get(), e2.get()))
@@ -16,28 +18,36 @@ def kRanking():
     pos = 22
     kRankingTable = Table(master,optimos,pos);    
 
-def getGraph():
-    kRanking()
-    hp = np.random.normal(200,25,1000)
-    plt.hist(hp, 50)
-    plt.show()
+def getGraph(df):
+    csvUtils = cu.CSVUtilities()
+    tupleToPrint = csvUtils.getTupleToPrint(df)
+    minValue = csvUtils.getMin(df)
+    maxValue = csvUtils.getMax(df)
+    print(tupleToPrint)
+    plotter = msg.Plotter()
+    plotter.plotKnnGraphic(*tupleToPrint, K=5, minValue=minValue, maxValue=maxValue, step=0.5)
     
     
     
 def getCSV ():
-    global df
+    
     
     import_file_path = filedialog.askopenfilename()
-    df = pd.read_csv (import_file_path)
-  
-    print (df.values)
+    df = pd.read_csv(import_file_path)
+    
+   
     data = df.values
     csvButton.grid_remove()
     tk.Label(master, 
          text="Vista Previa de los datos del CSV:").grid(row=6,column=1)
     table = Table(master,data,7);
     tk.Button(master, 
-          text='Calcular K Optimo', command=getGraph).grid(row=20, 
+          text='Calcular K Optimo', command=kRanking).grid(row=20, 
+                                                       column=1, 
+                                                       sticky=tk.W, 
+                                                       pady=4)
+    tk.Button(master, 
+          text='Graficar', command=lambda: getGraph(df)).grid(row=21, 
                                                        column=1, 
                                                        sticky=tk.W, 
                                                        pady=4)

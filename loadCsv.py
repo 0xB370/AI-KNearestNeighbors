@@ -8,6 +8,31 @@ import pruebaMeshgrid as msg
 
 dataset = pd.read_csv('datasets_1846_3197_Social_Network_Ads-3.csv')
 
+
+class CSVUtilities: 
+    def getTupleToPrint(self, dataset):
+        
+
+    def getMin(self, dataset):
+        X = dataset.iloc[:, [0, 1]].values
+        return X.min()
+
+    def getMax(self, dataset):
+        X = dataset.iloc[:, [0, 1]].values
+        return X.max()
+
+    def getTags(self, dataset):
+        Y = dataset.iloc[:, 2].values    
+        etiquetas = []
+        newY = Y
+        while len(newY) > 0:
+            etiquetas.append(newY[0])
+            newY = list(filter(lambda y : y != newY[0], newY))
+        return etiquetas
+    
+
+    
+    
 """ K = 5
 x = df['Age'].to_numpy()
 y = df['EstimatedSalary'].to_numpy()
@@ -30,7 +55,7 @@ a = accuracy_score(tagsExpected, tagsPredicted)
 
 print(a) """
 
-
+"""
 #Extract all row and columns 3 and 5
 X = dataset.iloc[:, [2, 3]].values
 #Extract "Purchased" values (1 if purchased, 0 if not)
@@ -72,7 +97,7 @@ for ix in range(len(C)):
 # apply kNN with k=1 on the same set of training samples
 # Con k=39 ya se comienza a romper y con k=40 ya se va de tema
 knn = msg.kAnalysis(*C, k=5, distance=0)
-knn.prepare_test_samples(low=0, high=100, step=0.5)
+knn.prepare_test_samples(low=X.min(), high=X.max(), step=0.5)
 knn.analyse()
 # Cálculo de precisión
 nn = knn.precision()
@@ -83,3 +108,4 @@ print(tagsPredicted)
 # print(accuracy_score(tagsExpected, tagsPredicted))
 ####################
 knn.plot(etiquetas=etiquetas)
+"""

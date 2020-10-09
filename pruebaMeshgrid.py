@@ -477,10 +477,19 @@ class kAnalysis(Analysis):
   
   def precision(self):
     return self.nn
+  
+
+class Plotter: 
+    def plotKnnGraphic(self, *tupleToPrint, K, minValue, maxValue, step):
+      knn = kAnalysis(*tupleToPrint, k=K, distance=0)
+      knn.prepare_test_samples(low=minValue, high=maxValue, step=0.5)
+      knn.analyse()
+      #knn.plot(etiquetas=tags)
 
 
 
 
+      
 
 
 
