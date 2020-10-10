@@ -4,7 +4,7 @@ import pandas as pd
 from table import Table
 import numpy as np
 import matplotlib.pyplot as plt
-import pruebaMeshgrid as msg
+import plotter as msg
 import loadCsv as cu
 
 def show_entry_fields():
