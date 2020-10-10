@@ -131,11 +131,7 @@ class kAnalysis():
 
     # save training samples to plot them later
     self.x_train = x
-
-  
     
-   
-
     # save training samples to plot them later
   
 
