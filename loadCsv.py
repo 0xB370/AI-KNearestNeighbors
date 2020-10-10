@@ -6,15 +6,15 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 import pruebaMeshgrid as msg
 
-dataset = pd.read_csv('datasets_1846_3197_Social_Network_Ads-3.csv')
+df = pd.read_csv('datasets-short.csv')
 
 
 class CSVUtilities: 
     def getTupleToPrint(self, dataset):
         #Extract all row and columns 3 and 5
-        X = dataset.iloc[:, [2, 3]].values
+        X = dataset.iloc[:, [0, 1]].values
         #Extract "Purchased" values (1 if purchased, 0 if not)
-        Y = dataset.iloc[:, 4].values
+        Y = dataset.iloc[:, 2].values
         # Creo un array con los distintos tags
         etiquetas = []
         newY = Y
@@ -55,9 +55,15 @@ class CSVUtilities:
         return etiquetas
     
 
+
+""" 
+knn = msg.kAnalysis(*tupleToPrint, k=4, distance=0)
+knn.prepare_test_samples(low=minValue, high=maxValue, step=0.5)
+knn.analyse()
+knn.plot(etiquetas=tags)
     
     
-""" K = 5
+K = 5
 x = df['Age'].to_numpy()
 y = df['EstimatedSalary'].to_numpy()
 tags = df['Purchased'].to_numpy()
@@ -77,13 +83,13 @@ print(tagsPredicted)
 
 a = accuracy_score(tagsExpected, tagsPredicted)
 
-print(a) """
+print(a) 
 
-"""
+
 #Extract all row and columns 3 and 5
-X = dataset.iloc[:, [2, 3]].values
+X = df.iloc[:, [0, 1]].values
 #Extract "Purchased" values (1 if purchased, 0 if not)
-Y = dataset.iloc[:, 4].values
+Y = df.iloc[:, 2].values
 
 
 # Creo un array con los distintos tags
@@ -132,4 +138,5 @@ print(tagsPredicted)
 # print(accuracy_score(tagsExpected, tagsPredicted))
 ####################
 knn.plot(etiquetas=etiquetas)
+
 """

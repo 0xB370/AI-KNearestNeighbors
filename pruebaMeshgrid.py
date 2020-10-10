@@ -480,11 +480,11 @@ class kAnalysis(Analysis):
   
 
 class Plotter: 
-    def plotKnnGraphic(self, *tupleToPrint, K, minValue, maxValue, step):
+    def plotKnnGraphic(self, *tupleToPrint, K, minValue, maxValue, step, etiquetas):
       knn = kAnalysis(*tupleToPrint, k=K, distance=0)
-      knn.prepare_test_samples(low=minValue, high=maxValue, step=0.5)
+      knn.prepare_test_samples(low=minValue, high=maxValue, step=step)
       knn.analyse()
-      #knn.plot(etiquetas=tags)
+      knn.plot(etiquetas=etiquetas)
 
 
 
