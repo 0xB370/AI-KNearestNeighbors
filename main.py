@@ -4,7 +4,7 @@ import pandas as pd
 from table import Table
 import numpy as np
 import matplotlib.pyplot as plt
-import pruebaMeshgrid as msg
+import plotter as msg
 import loadCsv as cu
 
 def show_entry_fields():
@@ -14,18 +14,17 @@ def kRanking():
     optimos = [
         ['K','Exactitud', 'Optimo'],
         [1,90, True],
-        [1,34, False],
-        [1,23, False],
-        [1,45, False],
-        [1,65, False],
-        [1,76, False],
-        [1,48, False],
-        [1,15, False],
-        [1,36, False],
-        [9,90, False],
+        [2,34, False],
+        [3,23, False],
+        [4,45, False],
+        [5,65, False],
+        [6,76, False],
+        [7,48, False],
+        [8,15, False],
+        [9,87, False],
         [10,5, False],
     ]
-    pos = 22
+    pos = 23
     
     kRankingTable = Table(master,optimos,pos);    
 
@@ -41,8 +40,8 @@ def getGraph(df):
     plotter = msg.Plotter()
     
     plotter.plotKnnGraphic(*tupleToPrint, K=K, minValue=minValue, maxValue=maxValue, step=step, etiquetas=tags)
-    
-    
+ 
+  
     
 def getCSV ():
     
@@ -57,17 +56,16 @@ def getCSV ():
          text="Vista Previa de los datos del CSV:").grid(row=9,column=1)
     table = Table(master,data,10);
     tk.Button(master, 
-          text='Calcular K Optimo', command=kRanking).grid(row=20, 
+          text='Calcular K Optimo', command=kRanking).grid(row=22, 
                                                        column=1, 
                                                        sticky=tk.W, 
-                                                       pady=4)
+                                                       pady=0)
     tk.Button(master, 
-          text='Graficar', command=lambda: getGraph(df)).grid(row=21, 
-                                                       column=1, 
+          text='Graficar', command=lambda: getGraph(df)).grid(row=22, 
+                                                       column=2, 
                                                        sticky=tk.W, 
-                                                       pady=4)
-    tk.Button(master,text='Cargar Otro Archivo', command=getCSV).grid(row=22, column=0, pady=4)
-
+                                                       pady=0)
+    tk.Button(master,text='Cargar Otro Archivo', command=getCSV).grid(row=4, column=2, pady=0)
     
 
 master = tk.Tk()
