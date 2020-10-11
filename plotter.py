@@ -1,8 +1,3 @@
-# numpy and matplotlib will be used a lot during the lecture
-# if you are familiar with these libraries you may skip this part
-# if not - extended comments were added to make it easier to understand
-
-# it is kind of standard to import numpy as np and pyplot as plt
 import numpy as np
 import matplotlib.pyplot as plt
 from knnPure import KnnClasifier
@@ -53,12 +48,11 @@ class kNearestNeighbors():
   """k-Nearest Neighbor Classifier"""
 
 
-  def __init__(self, x, y, k=1):
-    """Set distance definition: 0 - L1, 1 - L2"""
+  def __init__(self, x, y, k=1):   
     
     self.k = k
-    self.x_train = x
-    self.y_train = y
+    self.x_train = x # features vectors
+    self.y_train = y # labels (N x 1)
 
 
   def predict(self, x):
@@ -131,8 +125,6 @@ class kAnalysis():
 
     # save training samples to plot them later
     self.x_train = x
-    
-    # save training samples to plot them later
   
 
     # merge feature vector arrays for NearestNeighbor
@@ -169,8 +161,7 @@ class kAnalysis():
 
     # find labels for test samples 
     self.y_test = self.nn.predict(self.x_test)
-    # print(self.x_test)
-
+  
     self.classified = []  # [class I test points, class II test ...]
     
     # loop over available labels
