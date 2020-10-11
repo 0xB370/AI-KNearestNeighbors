@@ -6,13 +6,13 @@ class Table:
 	
     def __init__(self,root,data,pos):
         #code for creating table
-        total_rows = 10 if len(data) > 10 else len(data)
+        total_rows = 11 if len(data) > 11 else len(data)
         total_columns = len(data[0])
          
         for i in range(total_rows): 
             for j in range(total_columns): 
                 
-                self.e = Entry(root, width=11, fg='Black', 
+                self.e = Entry(root, width=13, fg='Black', 
                             font=('Arial',9,'bold'))
                 self.e.grid(row=i + pos, column=j) 
                 self.e.insert(END, data[i][j])
