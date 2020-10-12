@@ -6,24 +6,26 @@ import numpy as np
 import matplotlib.pyplot as plt
 import plotter as msg
 import loadCsv as cu
+from pruebaKFoldCrossValidation import crossValidation as crossVal
 
 def show_entry_fields():
     print("First Name: %s\nLast Name: %s" % (e1.get(), e2.get()))
 
-def kRanking():
-    optimos = [
-        ['K','Exactitud', 'Optimo'],
-        [1,90, True],
-        [2,34, False],
-        [3,23, False],
-        [4,45, False],
-        [5,65, False],
-        [6,76, False],
-        [7,48, False],
-        [8,15, False],
-        [9,87, False],
-        [10,5, False],
-    ]
+def kRanking(name_file):
+    # optimos = [
+    #     ['K','Exactitud', 'Optimo'],
+    #     [1,90, True],
+    #     [2,34, False],
+    #     [3,23, False],
+    #     [4,45, False],
+    #     [5,65, False],
+    #     [6,76, False],
+    #     [7,48, False],
+    #     [8,15, False],
+    #     [9,87, False],
+    #     [10,5, False],
+    # ]
+    optimos = crossVal(name_file)
     pos = 23
     
     kRankingTable = Table(master,optimos,pos);    
@@ -48,15 +50,13 @@ def getCSV ():
     
     import_file_path = filedialog.askopenfilename()
     df = pd.read_csv(import_file_path)
-    
-   
     data = df.values
     csvButton.grid_remove()
     tk.Label(master, 
          text="Vista Previa de los datos del CSV:").grid(row=9,column=1)
     table = Table(master,data,10);
     tk.Button(master, 
-          text='Calcular K Optimo', command=kRanking).grid(row=22, 
+          text='Calcular K Optimo', command=lambda: kRanking(import_file_path)).grid(row=22, 
                                                        column=1, 
                                                        sticky=tk.W, 
                                                        pady=0)

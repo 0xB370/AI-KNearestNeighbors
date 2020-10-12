@@ -48,7 +48,7 @@ class kNearestNeighbors():
   """k-Nearest Neighbor Classifier"""
 
 
-  def __init__(self, x, y, k=1):   
+  def __init__(self, x, y, k=10):   
     
     self.k = k
     self.x_train = x # features vectors
