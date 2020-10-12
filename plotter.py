@@ -69,8 +69,24 @@ class kNearestNeighbors():
       # El label predicho es el que tiene la mayor cantidad de votos
       # En caso de haber empate, se tomará la clase del punto de menor distancia
       conteo = col.Counter(votes)
+      # Si hay más de una clase con conteo de votos máximo
       if (conteo[np.max(votes)] > 1):
-        predictions.append(self.y_train[np.argmin(distances)])
+        # Posición simepre va a ser un array, debido a que hay más de un elemento con el valor máximo de votos. Este arreglo contiene las posiciones del arreglo votes que empataron con la máxima cantidad de votos
+        posicion = np.array(np.where(votes == np.max(votes))[0])
+        bandera = False
+        # Con argsort obtenemos un arreglo con las posiciones de los elementos que van de menor a mayor en el arreglo de distancias
+        orden = np.argsort(distances)
+        # Iteramos sobre el arreglo obtenido anteriormente tratando primero los puntos más cercanos, y alejándonos gradualmente en cada iteración
+        for i in range(len(orden)):
+          # Por cada elemento de distances nos fijamos si la clase del punto en cuestión pertenece a las clases que empataron, las cuales se encuentran en el arreglo posición
+          for j in range(len(posicion)):
+            # Si la distancia mínima tratada en esta iteración existe en el arreglo de las clases que obtuvieron mayor cantidad de votos (posición), se lo agrega a predictions y se sale de los loops
+            if (self.y_train[orden[i]] == posicion[j]):
+              predictions.append(self.y_train[orden[i]])
+              bandera = True
+              break
+          if (bandera):
+              break
       else:
         predictions.append(np.argmax(votes))
       # predictions.append(np.argmax(votes))
@@ -139,7 +155,6 @@ class kAnalysis():
       legends.append(legendClass)
     kValue = mpatches.Patch(color='cornflowerblue', label="K="+str(K))
     legends.append(kValue)
-    print(legends)
     plt.legend(handles=[*legends], loc='upper right')
     # Pintando la grilla
     for i, x in enumerate(self.classified):
