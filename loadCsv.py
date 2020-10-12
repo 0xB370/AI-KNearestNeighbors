@@ -36,6 +36,13 @@ class CSVUtilities:
         for ix in range(len(C)):
             C[ix] = np.array(C[ix])
         return C
+    
+    def getHeaders(self, dataset):
+        data = dataset.head()
+        cabeceras = []
+        for col in data.columns: 
+            cabeceras.append(col)
+        return cabeceras
         
     def getMin(self, dataset):
         X = dataset.iloc[:, [0, 1]].values
