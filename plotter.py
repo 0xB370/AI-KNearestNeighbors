@@ -32,7 +32,7 @@ def init_plot(x_range=None, y_range=None, x_label="$x_1$", y_label="$x_2$"):
 
 
 
-class kNearestNeighbors():
+class KnnClassifier():
   """Clasificador k-Nearest Neighbor"""
   def __init__(self, x, y, k=1):   
     self.k = k
@@ -94,7 +94,7 @@ class kNearestNeighbors():
 
 
 
-class kAnalysis():
+class knnHelper():
   """Aplicación de kNearestNeighbor a los puntos de prueba"""
 
   def __init__(self, *x, k=1):
@@ -112,9 +112,9 @@ class kAnalysis():
     # concatenate([array([0, 0]), array([1, 1]), array([2, 2]), array([3, 3]), array([4, 4])]) = [0 0 1 1 2 2 3 3 4 4]
     x = np.concatenate(x, axis=0)
     # Inicialización de clasificador
-    self.nn = kNearestNeighbors(x, y, k)
+    self.nn = KnnClassifier(x, y, k)
    
-  def prepare_test_samples(self, min=0, max=2, step=0.01):
+  def generateGridPoints(self, min=0, max=2, step=0.01):
     """Generación del grid con los puntos de prueba"""
     # Definición del rango
     self.range = [min, max]
@@ -165,7 +165,7 @@ class kAnalysis():
 
 class Plotter: 
     def plotKnnGraphic(self, *tupleToPrint, K, minValue, maxValue, step, etiquetas, x_label, y_label):
-      knn = kAnalysis(*tupleToPrint, k=K)
-      knn.prepare_test_samples(min=minValue, max=maxValue, step=step)
+      knn = knnHelper(*tupleToPrint, k=K)
+      knn.generateGridPoints(min=minValue, max=maxValue, step=step)
       knn.analyse()
       knn.plot(t='KNN Classifier', K=K, etiquetas=etiquetas, x_label=x_label, y_label=y_label)

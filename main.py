@@ -7,8 +7,6 @@ import matplotlib.pyplot as plt
 import plotter as msg
 import loadCsv as cu
 
-def show_entry_fields():
-    print("First Name: %s\nLast Name: %s" % (e1.get(), e2.get()))
 
 def kRanking():
     optimos = [
