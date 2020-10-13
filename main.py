@@ -7,8 +7,6 @@ import matplotlib.pyplot as plt
 import plotter as msg
 import loadCsv as cu
 
-def show_entry_fields():
-    print("First Name: %s\nLast Name: %s" % (e1.get(), e2.get()))
 
 def kRanking():
     optimos = [
@@ -31,15 +29,15 @@ def kRanking():
 def getGraph(df):
     csvUtils = cu.CSVUtilities()
     tupleToPrint = csvUtils.getTupleToPrint(df)
+    cabeceras = csvUtils.getHeaders(df)
     minValue = csvUtils.getMin(df)
     maxValue = csvUtils.getMax(df)
     tags = csvUtils.getTags(df)
     K = int(e1.get())
     step = float(e2.get())
-    print(tupleToPrint)
     plotter = msg.Plotter()
     
-    plotter.plotKnnGraphic(*tupleToPrint, K=K, minValue=minValue, maxValue=maxValue, step=step, etiquetas=tags)
+    plotter.plotKnnGraphic(*tupleToPrint, K=K, minValue=minValue, maxValue=maxValue, step=step, etiquetas=tags, x_label=cabeceras[0], y_label=cabeceras[1])
  
   
     
