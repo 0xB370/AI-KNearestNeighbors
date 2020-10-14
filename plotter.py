@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import collections as col
-import math  
 # Paleta de colores para la gráfica
 paleta_colores = ('r', 'b', 'g', 'c', 'm', 'y', 'k', 'w')
 
