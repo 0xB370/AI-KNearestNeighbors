@@ -58,18 +58,18 @@ class KnnClassifier():
           for item in sublist:
               flat_list.append(item)
       self.y_train = flat_list
-    nof_classes = np.amax(self.y_train) + 1
+    nof_classes = max(range(len(self.y_train)), key=self.y_train.__getitem__) + 1
     predictions = []
     
     for x_test in x:
       # Array de distancias entre el punto de prueba actual (x_test) y todos los puntos de "entrenamiento"
       distances = np.array([]) 
-      
       aux = abs((x_test - self.x_train))
       distances = [sum(l) for l in aux]
-      
-      # np.zeros = Devuelve un nuevo array relleno de ceros
-      votes = np.zeros(nof_classes, dtype=np.int)
+      votes = []
+      for ix in range(nof_classes):
+        votes.append(0)
+      # votes = np.zeros(nof_classes, dtype=np.int)
       # Búsqueda de los K vecinos más cercanos y votación
       # argsort devuelve los índices que ordenarían un array
       # Por lo tanto, los índices de los vecinos más cercanos
@@ -82,14 +82,13 @@ class KnnClassifier():
         votes[neighbor_label] += 1
       # El label predicho es el que tiene la mayor cantidad de votos
       # En caso de haber empate, se tomará la clase del punto de menor distancia
-      conteo = col.Counter(votes)
+      posicion = self.posicionesValor(arr=votes, valor=max(votes))
       # Si hay más de una clase con conteo de votos máximo
-      if (conteo[np.max(votes)] > 1):
+      if (len(posicion) > 1):
         # Posición simepre va a ser un array, debido a que hay más de un elemento con el valor máximo de votos. Este arreglo contiene las posiciones del arreglo votes que empataron con la máxima cantidad de votos
-        posicion = self.posicionesValor(arr=votes, valor=np.max(votes))
         bandera = False
         # Con argsort obtenemos un arreglo con las posiciones de los elementos que van de menor a mayor en el arreglo de distancias
-        orden = np.argsort(distances)
+        orden = self.ordenIndices(seq=distances)
         # Iteramos sobre el arreglo obtenido anteriormente tratando primero los puntos más cercanos, y alejándonos gradualmente en cada iteración
         for i in range(len(orden)):
           # Por cada elemento de distances nos fijamos si la clase del punto en cuestión pertenece a las clases que empataron, las cuales se encuentran en el arreglo posición
@@ -102,8 +101,7 @@ class KnnClassifier():
           if (bandera):
               break
       else:
-        predictions.append(np.argmax(votes))
-      # predictions.append(np.argmax(votes))
+        predictions.append(max(range(len(self.votes)), key=self.votes.__getitem__))
     return predictions
 
 
