@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import collections as col
-
 # Paleta de colores para la gráfica
 paleta_colores = ('r', 'b', 'g', 'c', 'm', 'y', 'k', 'w')
 
@@ -51,9 +50,14 @@ class KnnClassifier():
       self.y_train = flat_list
     nof_classes = np.amax(self.y_train) + 1
     predictions = []
+    
     for x_test in x:
       # Array de distancias entre el punto de prueba actual (x_test) y todos los puntos de "entrenamiento"
-      distances = np.sum(np.abs(self.x_train - x_test), axis=1)
+      distances = np.array([]) 
+      
+      aux = abs((x_test - self.x_train))
+      distances = [sum(l) for l in aux]
+      
       # np.zeros = Devuelve un nuevo array relleno de ceros
       votes = np.zeros(nof_classes, dtype=np.int)
       # Búsqueda de los K vecinos más cercanos y votación
@@ -169,3 +173,6 @@ class Plotter:
       knn.generateGridPoints(min=minValue, max=maxValue, step=step)
       knn.analyse()
       knn.plot(t='KNN Classifier', K=K, etiquetas=etiquetas, x_label=x_label, y_label=y_label)
+
+
+            
