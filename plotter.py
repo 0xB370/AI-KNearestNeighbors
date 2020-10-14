@@ -37,6 +37,16 @@ class KnnClassifier():
     self.k = k
     self.x_train = x
     self.y_train = y
+  
+  def ordenIndices(self, seq):
+    return sorted(range(len(seq)), key=seq.__getitem__)
+  
+  def posicionesValor(self, arr, valor):
+    resultado = []
+    for ix in range(len(arr)):
+      if (arr[ix] == valor):
+        resultado.append(ix)
+    return resultado
 
   def predict(self, x):
     """Predicción de clase para cada elemento de x
@@ -65,7 +75,7 @@ class KnnClassifier():
       # Por lo tanto, los índices de los vecinos más cercanos
       # El [:self.k] es un slice del array obtenido en np.argsort
       # Es decir, lo deja en k valores
-      for neighbor_id in np.argsort(distances)[:self.k]:
+      for neighbor_id in self.ordenIndices(seq=distances)[:self.k]:
         # Este label corresponde a uno de los vecinos más cercanos
         neighbor_label = self.y_train[neighbor_id]
         # Actualización del arreglo de votos
@@ -76,7 +86,7 @@ class KnnClassifier():
       # Si hay más de una clase con conteo de votos máximo
       if (conteo[np.max(votes)] > 1):
         # Posición simepre va a ser un array, debido a que hay más de un elemento con el valor máximo de votos. Este arreglo contiene las posiciones del arreglo votes que empataron con la máxima cantidad de votos
-        posicion = np.array(np.where(votes == np.max(votes))[0])
+        posicion = self.posicionesValor(arr=votes, valor=np.max(votes))
         bandera = False
         # Con argsort obtenemos un arreglo con las posiciones de los elementos que van de menor a mayor en el arreglo de distancias
         orden = np.argsort(distances)
