@@ -101,7 +101,7 @@ class KnnClassifier():
           if (bandera):
               break
       else:
-        predictions.append(max(range(len(self.votes)), key=self.votes.__getitem__))
+        predictions.append(max(range(len(votes)), key=votes.__getitem__))
     return predictions
 
 
