@@ -25,7 +25,6 @@ def kRanking(name_file):
     # ]
     optimos = crossVal(name_file)
     pos = 23
-    
     kRankingTable = Table(master,optimos,pos);    
 
 def getGraph(df):

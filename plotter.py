@@ -125,6 +125,7 @@ class knnHelper():
     x = np.concatenate(x, axis=0)
     # Inicialización de clasificador
     self.nn = KnnClassifier(x, y, k)
+    print(self.x_train)
    
   def generateGridPoints(self, min=0, max=2, step=0.01):
     """Generación del grid con los puntos de prueba"""
@@ -141,6 +142,9 @@ class knnHelper():
     # np.vstack(([1,2,3],[2,3,4])) = array([[1, 2, 3],
     #                                       [2, 3, 4]])
     self.x_test = np.vstack([grilla[0].ravel(), grilla[1].ravel()]).T
+  
+  def setXTest(self, x_test):
+    self.x_test = x_test
 
   def analyse(self):
     """Ejecución del clasificador sobre los puntos de prueba y separación de los mismos de acuerdo a las respectivas etiquetas"""
@@ -154,6 +158,7 @@ class knnHelper():
                           for i, t in enumerate(self.y_test) \
                           if t == tag])
       self.classified.append(clasificacion_i)
+    return self.classified
 
   def plot(self, t='', K=5, etiquetas=[], x_label="X", y_label="Y"):
     """Visualización de los resultados de la clasificación"""
