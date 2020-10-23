@@ -31,13 +31,7 @@ def init_plot(x_range=None, y_range=None, x_label="$x_1$", y_label="$x_2$"):
 
 
 
-class KnnClassifier():
-  """Clasificador k-Nearest Neighbor"""
-  def __init__(self, x, y, k=1):   
-    self.k = k
-    self.x_train = x
-    self.y_train = y
-  
+class UtilsFunctions():
   def ordenIndices(self, seq):
     return sorted(range(len(seq)), key=seq.__getitem__)
   
@@ -47,6 +41,35 @@ class KnnClassifier():
       if (arr[ix] == valor):
         resultado.append(ix)
     return resultado
+  
+  def array_split(self, data, folds):
+    length = int(len(data)/folds) #length of each fold
+    res = []
+    """ for i in range(folds):
+        res.append([]) """
+    largo = 0
+    for j in range(folds):
+        values = []
+        for k in range(length):
+            values.append(data[largo+k])
+        if (j == folds):
+            if ((len(data)-1) < (largo+k)):
+                contador = largo + k + 1
+                while (contador <= (len(data)-1)):
+                    values.append(data[contador])
+                    contador += 1
+        res.append(values)
+        largo += length
+    return res
+
+
+
+class KnnClassifier():
+  """Clasificador k-Nearest Neighbor"""
+  def __init__(self, x, y, k=1):   
+    self.k = k
+    self.x_train = x
+    self.y_train = y
 
   def predict(self, x):
     """Predicción de clase para cada elemento de x
@@ -75,20 +98,21 @@ class KnnClassifier():
       # Por lo tanto, los índices de los vecinos más cercanos
       # El [:self.k] es un slice del array obtenido en np.argsort
       # Es decir, lo deja en k valores
-      for neighbor_id in self.ordenIndices(seq=distances)[:self.k]:
+      utils = UtilsFunctions()
+      for neighbor_id in utils.ordenIndices(seq=distances)[:self.k]:
         # Este label corresponde a uno de los vecinos más cercanos
         neighbor_label = self.y_train[neighbor_id]
         # Actualización del arreglo de votos
         votes[neighbor_label] += 1
       # El label predicho es el que tiene la mayor cantidad de votos
       # En caso de haber empate, se tomará la clase del punto de menor distancia
-      posicion = self.posicionesValor(arr=votes, valor=max(votes))
+      posicion = utils.posicionesValor(arr=votes, valor=max(votes))
       # Si hay más de una clase con conteo de votos máximo
       if (len(posicion) > 1):
         # Posición simepre va a ser un array, debido a que hay más de un elemento con el valor máximo de votos. Este arreglo contiene las posiciones del arreglo votes que empataron con la máxima cantidad de votos
         bandera = False
         # Con argsort obtenemos un arreglo con las posiciones de los elementos que van de menor a mayor en el arreglo de distancias
-        orden = self.ordenIndices(seq=distances)
+        orden = utils.ordenIndices(seq=distances)
         # Iteramos sobre el arreglo obtenido anteriormente tratando primero los puntos más cercanos, y alejándonos gradualmente en cada iteración
         for i in range(len(orden)):
           # Por cada elemento de distances nos fijamos si la clase del punto en cuestión pertenece a las clases que empataron, las cuales se encuentran en el arreglo posición
@@ -141,6 +165,9 @@ class knnHelper():
     # np.vstack(([1,2,3],[2,3,4])) = array([[1, 2, 3],
     #                                       [2, 3, 4]])
     self.x_test = np.vstack([grilla[0].ravel(), grilla[1].ravel()]).T
+  
+  def setXTest(self, x_test):
+    self.x_test = x_test
 
   def analyse(self):
     """Ejecución del clasificador sobre los puntos de prueba y separación de los mismos de acuerdo a las respectivas etiquetas"""
@@ -154,6 +181,12 @@ class knnHelper():
                           for i, t in enumerate(self.y_test) \
                           if t == tag])
       self.classified.append(clasificacion_i)
+    return self.y_test
+    
+  
+  """ def getYTest(self):
+    return self.y_test """
+  
 
   def plot(self, t='', K=5, etiquetas=[], x_label="X", y_label="Y"):
     """Visualización de los resultados de la clasificación"""
