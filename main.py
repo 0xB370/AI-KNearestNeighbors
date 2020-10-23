@@ -9,7 +9,7 @@ import loadCsv as cu
 from pruebaKFoldCrossValidation import crossValidation as crossVal
 
 
-def kRanking(name_file):
+def kRanking(df):
     # optimos = [
     #     ['K','Exactitud', 'Optimo'],
     #     [1,90, True],
@@ -23,7 +23,7 @@ def kRanking(name_file):
     #     [9,87, False],
     #     [10,5, False],
     # ]
-    optimos = crossVal(name_file)
+    optimos = crossVal(df)
     pos = 23
     kRankingTable = Table(master,optimos,pos);    
 
@@ -55,7 +55,7 @@ def getCSV ():
          text="Vista Previa de los datos del CSV:").grid(row=9,column=1)
     table = Table(master,data,10);
     tk.Button(master, 
-          text='Calcular K Optimo', command=lambda: kRanking(import_file_path)).grid(row=22, 
+          text='Calcular K Optimo', command=lambda: kRanking(df)).grid(row=22, 
                                                        column=1, 
                                                        sticky=tk.W, 
                                                        pady=0)

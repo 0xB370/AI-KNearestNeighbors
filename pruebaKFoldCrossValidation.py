@@ -6,6 +6,7 @@ import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 import plotter as plt
+from operator import itemgetter
 from plotter import UtilsFunctions
 
 def validacionCruzada(name_file):
@@ -49,22 +50,11 @@ def validacionCruzada(name_file):
 
 
 
-def crossValidation(name_file, folds=5, kRange=11):
-    ##################################################################################################
-    # VER PARA HACER QUE TOME EL ARCHIVO IGUAL QUE LA FUNCION PARA GRAFICAR
-    ##################################################################################################
-    nombre_archivo = name_file.split('/')
-    df = pd.read_csv(nombre_archivo[len(nombre_archivo)-1])
-    print(nombre_archivo[len(nombre_archivo)-1])
-    if(nombre_archivo[len(nombre_archivo)-1]=='datasets_1846_3197_Social_Network_Ads-3.csv' or nombre_archivo[len(nombre_archivo)-1]=='datasets_1846_3197_Social_Network_Ads-2.csv'):
-        x=df.iloc[:,[2,3]].values
-        y=df.iloc[:,4].values
-    else:
-        x=df.iloc[:,[0,1]].values
-        y=df.iloc[:,2].values
-    ##################################################################################################
-    ##################################################################################################
-    ##################################################################################################
+def crossValidation(df, folds=10):
+    
+    x=df.iloc[:,[0,1]].values
+    y=df.iloc[:,2].values
+    kRange = int(len(x) * 0.9)
     
     # Definimos el rango de K a calcular
     k=range(1,kRange)
@@ -148,4 +138,7 @@ def crossValidation(name_file, folds=5, kRange=11):
     # Se ponen a True los K óptimos
     for index_max in range(len(posiciones)):
         res[index_max][2] = True
-    return res
+    
+    print(res)
+    resSorted = sorted(res, key=itemgetter(1), reverse=True)
+    return resSorted
