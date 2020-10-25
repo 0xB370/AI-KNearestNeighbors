@@ -213,7 +213,8 @@ class Plotter:
       knn = knnHelper(*tupleToPrint, k=K)
       knn.generateGridPoints(min=minValue, max=maxValue, step=step)
       knn.analyse()
-      knn.plot(t='KNN Classifier', K=K, etiquetas=etiquetas, x_label=x_label, y_label=y_label)
+      kStr = str(K)
+      knn.plot(t='KNN Classifier with K = '+kStr, K=K, etiquetas=etiquetas, x_label=x_label, y_label=y_label)
 
 
             
