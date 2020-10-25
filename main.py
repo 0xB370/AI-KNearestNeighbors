@@ -65,9 +65,9 @@ def getGraph(df):
             plotter.plotKnnGraphic(*tupleToPrint, K=K, minValue=minValue, maxValue=maxValue, step=step, etiquetas=tags, x_label=cabeceras[0], y_label=cabeceras[1])
         else:
             toplevel = Toplevel()
-            label1 = Label(toplevel, text='Crack, Te Falto El Step', height=0, width=50)
+            label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
             label1.pack()
-            label2 = Label(toplevel, text='La concha del Pato', height=0, width=50)
+            label2 = Label(toplevel, text='Falto Especificar el Step', height=0, width=50)
             label2.pack()
     elif(int(e4.get())<=int(e5.get()) and len(e1.get())==0):
         for k in range(int(e4.get()),int(e5.get())+1):
