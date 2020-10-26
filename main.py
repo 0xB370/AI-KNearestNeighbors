@@ -70,6 +70,7 @@ def getGraph(df):
             label2 = Label(toplevel, text='Falto Especificar el Step', height=0, width=50)
             label2.pack()
     elif(int(e4.get())<=int(e5.get()) and len(e1.get())==0):
+        aux=[]
         for k in range(int(e4.get()),int(e5.get())+1):
             print(k)
             csvUtils = cu.CSVUtilities()
@@ -81,7 +82,15 @@ def getGraph(df):
             K = int(k)
             step = float(e2.get())
             plotter = msg.Plotter()
-            plotter.plotKnnGraphic(*tupleToPrint, K=K, minValue=minValue, maxValue=maxValue, step=step, etiquetas=tags, x_label=cabeceras[0], y_label=cabeceras[1])
+            Kk=K
+            minValue=minValue
+            maxValue=maxValue
+            step=step
+            etiquetas=tags
+            x_label=cabeceras[0]
+            y_label=cabeceras[1]
+            aux.append([*tupleToPrint, Kk, minValue, maxValue, step, etiquetas, x_label, y_label,int(e4.get()),int(e5.get())])
+        plotter.variasGraficas(aux)
     else:
         toplevel = Toplevel()
         label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)

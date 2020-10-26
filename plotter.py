@@ -206,7 +206,24 @@ class knnHelper():
       plot.plot(*x.T, paleta_colores[i] + ',')
     plt.show()
 
-
+  def plot2(self, arrArgs):
+    for arrArg in arrArgs:
+      """Visualización de los resultados de la clasificación"""
+      plot = init_plot(self.range, self.range, x_label=arrArg[3], y_label=arrArg[4])
+      plot.set_title(arrArg[0])
+      plot.grid(False)
+      # Gráfica de los puntos de prueba y sus respectivas leyendas
+      legends = []
+      for i, x in enumerate(self.x_train):
+        legendClass, = plt.plot(*x.T, paleta_colores[i] + 'o', label=arrArg[2][i])
+        legends.append(legendClass)
+      kValue = mpatches.Patch(color='cornflowerblue', label="K="+str(arrArg[1]))
+      legends.append(kValue)
+      plt.legend(handles=[*legends], loc='upper right')
+      # Pintando la grilla
+      for i, x in enumerate(self.classified):
+        plot.plot(*x.T, paleta_colores[i] + ',')
+    plt.show()
 
 class Plotter: 
     def plotKnnGraphic(self, *tupleToPrint, K, minValue, maxValue, step, etiquetas, x_label, y_label):
@@ -216,5 +233,21 @@ class Plotter:
       kStr = str(K)
       knn.plot(t='KNN Classifier with K = '+kStr, K=K, etiquetas=etiquetas, x_label=x_label, y_label=y_label)
 
+    def variasGraficas(self,arrArgs):
+      aux = []
+      for n in arrArgs:
+        aux2 = n[0]
+        aux3 = type(n[1])
+        knn = knnHelper(np.array([*n[0],*n[1]]), k=n[2])
+        knn.generateGridPoints(min=n[3], max=n[4], step=n[5])
+        knn.analyse()
+        kStr = str(n[2])
+        K=n[2]
+        etiquetas=n[6]
+        x_label=n[7]
+        y_label=n[8]
+        aux.append(['KNN Classifier with K = '+kStr, K, etiquetas, x_label, y_label, n[len(n)-2],n[len(n)-1]])
+      print(aux)
+      knn.plot2(aux)
 
             
