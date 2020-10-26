@@ -136,9 +136,22 @@ def crossValidation(df, folds=10):
     # Obtenemos las posiciones de los promedios más altos (Es decir, los K óptimos - Se puede dar el caso en que haya un empate de promedios más altos, en el cual tendremos más de un K óptimo - )
     posiciones = utils.posicionesValor(arr=promediosArr, valor=max(promediosArr))
     # Se ponen a True los K óptimos
+    acum = 0
+    kMax = 0
     for index_max in range(len(posiciones)):
         res[index_max][2] = True
     
-    print(res)
+    for el in res:
+        acum = acum + el[1]
+        kMax = el[0]
+        
+    avg = acum / kMax
+    
+    print(avg)
+    print(kMax)
+    print(acum)
+        
+    
+    
     resSorted = sorted(res, key=itemgetter(1), reverse=True)
     return resSorted

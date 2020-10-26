@@ -1,12 +1,9 @@
 import pandas as pd
 from sklearn.metrics import accuracy_score
-from knnPure import KnnClasifier
 from sklearn.model_selection import train_test_split
 
 import numpy as np
 import plotter as msg
-
-df = pd.read_csv('datasets-short.csv')
 
 
 class CSVUtilities: 
