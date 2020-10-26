@@ -237,8 +237,8 @@ class Plotter:
       aux = []
       for n in arrArgs:
         aux2 = n[0]
-        aux3 = type(n[1])
-        knn = knnHelper(np.array([*n[0],*n[1]]), k=n[2])
+        aux3 = np.array([n[0],n[1]])
+        knn = knnHelper(*aux3, k=n[2])
         knn.generateGridPoints(min=n[3], max=n[4], step=n[5])
         knn.analyse()
         kStr = str(n[2])
