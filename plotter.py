@@ -70,6 +70,12 @@ class KnnClassifier():
     self.k = k
     self.x_train = x
     self.y_train = y
+    newY = y
+    self.tagsEmp = []
+    while len(newY) > 0:
+      self.tagsEmp.append(newY[0])
+      newY = list(filter(lambda y : y != newY[0], newY))
+    self.tagsEmp.append(self.tagsEmp[len(self.tagsEmp)-1] + 1)
 
   def predict(self, x):
     """Predicción de clase para cada elemento de x
@@ -108,7 +114,7 @@ class KnnClassifier():
       # En caso de haber empate, se tomará la clase del punto de menor distancia
       posicion = utils.posicionesValor(arr=votes, valor=max(votes))
       # Si hay más de una clase con conteo de votos máximo
-      if (len(posicion) > 1):
+      """ if (len(posicion) > 1):
         # Posición simepre va a ser un array, debido a que hay más de un elemento con el valor máximo de votos. Este arreglo contiene las posiciones del arreglo votes que empataron con la máxima cantidad de votos
         bandera = False
         # Con argsort obtenemos un arreglo con las posiciones de los elementos que van de menor a mayor en el arreglo de distancias
@@ -125,6 +131,10 @@ class KnnClassifier():
           if (bandera):
               break
       else:
+        predictions.append(max(range(len(votes)), key=votes.__getitem__)) """
+      if (len(posicion) > 1):
+        predictions.append(self.tagsEmp[len(self.tagsEmp)-1])
+      else:
         predictions.append(max(range(len(votes)), key=votes.__getitem__))
     return predictions
 
@@ -138,7 +148,7 @@ class knnHelper():
     k -- número de vecinos más cercanos
     """
     # Definición de cantidad de clases
-    self.nof_classes = len(x)
+    self.nof_classes = len(x) + 1
     # Definición de training samples
     self.x_train = x
     # Creación de array de labels
@@ -198,12 +208,16 @@ class knnHelper():
     for i, x in enumerate(self.x_train):
       legendClass, = plt.plot(*x.T, paleta_colores[i] + 'o', label=etiquetas[i])
       legends.append(legendClass)
-    kValue = mpatches.Patch(color='cornflowerblue', label="K="+str(K))
-    legends.append(kValue)
+    unclass = mpatches.Patch(color='grey', label="Unclassified")
+    legends.append(unclass)
     plt.legend(handles=[*legends], loc='upper right')
     # Pintando la grilla
     for i, x in enumerate(self.classified):
-      plot.plot(*x.T, paleta_colores[i] + ',')
+        if (i == (self.nof_classes - 1)):
+          print('VA A IMPRIMIR NEGRO')
+          plot.plot(*x.T, 'k' + ',')
+        else:
+          plot.plot(*x.T, paleta_colores[i] + ',')
     plt.show()
 
   def plot2(self, arrArgs):
@@ -217,12 +231,15 @@ class knnHelper():
       for i, x in enumerate(self.x_train):
         legendClass, = plt.plot(*x.T, paleta_colores[i] + 'o', label=arrArg[2][i])
         legends.append(legendClass)
-      kValue = mpatches.Patch(color='cornflowerblue', label="K="+str(arrArg[1]))
-      legends.append(kValue)
+      unclass = mpatches.Patch(color='grey', label="Unclassified")
+      legends.append(unclass)
       plt.legend(handles=[*legends], loc='upper right')
       # Pintando la grilla
       for i, x in enumerate(self.classified):
-        plot.plot(*x.T, paleta_colores[i] + ',')
+        if (i == (self.nof_classes)):
+          plot.plot(*x.T, 'k' + ',')
+        else:
+          plot.plot(*x.T, paleta_colores[i] + ',')
     plt.show()
 
 class Plotter: 

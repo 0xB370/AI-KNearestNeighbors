@@ -42,9 +42,9 @@ def kRanking(df):
         kRankingTable = Table(master,optimos,pos)
     else:
         toplevel = Toplevel()
-        label1 = Label(toplevel, text='Crack, el csv tiene', height=0, width=50)
+        label1 = Label(toplevel, text='Ocurrió un error, el dataset tiene', height=0, width=50)
         label1.pack()
-        label2 = Label(toplevel, text='que tener al menos 10 datos', height=0, width=50)
+        label2 = Label(toplevel, text='que tener al menos 10 datos. Para Calcular el valor optimo utlizamos 10-fold cross validation', height=0, width=50)
         label2.pack()       
 
 
@@ -67,7 +67,7 @@ def getGraph(df):
             toplevel = Toplevel()
             label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
             label1.pack()
-            label2 = Label(toplevel, text='Falto Especificar el Step', height=0, width=50)
+            label2 = Label(toplevel, text='Debe ingresar el valor del Step', height=0, width=50)
             label2.pack()
     elif(int(e4.get())<=int(e5.get()) and len(e1.get())==0):
         aux=[]
