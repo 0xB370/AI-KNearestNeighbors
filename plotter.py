@@ -236,17 +236,22 @@ class Plotter:
     def variasGraficas(self,arrArgs):
       aux = []
       for n in arrArgs:
-        aux2 = n[0]
-        aux3 = np.array([n[0],n[1]])
-        knn = knnHelper(*aux3, k=n[2])
-        knn.generateGridPoints(min=n[3], max=n[4], step=n[5])
+        auxArr=[]
+        maxim = n[len(n)- 1] - 1
+        ##aux3 = np.array([n[0],n[1],n[2]])
+        for i in range(0,maxim+1):
+          auxArr.append(n[i])
+        aux3 = np.array(auxArr)
+        knn = knnHelper(*aux3, k=n[maxim+1])
+        knn.generateGridPoints(min=n[maxim + 2], max=n[maxim + 3], step=n[maxim + 4])
         knn.analyse()
-        kStr = str(n[2])
-        K=n[2]
-        etiquetas=n[6]
-        x_label=n[7]
-        y_label=n[8]
-        aux.append(['KNN Classifier with K = '+kStr, K, etiquetas, x_label, y_label, n[len(n)-2],n[len(n)-1]])
+        kStr = str(n[maxim + 1])
+        K=n[maxim + 1]
+        etiquetas=n[maxim + 5]
+        print(etiquetas)
+        x_label=n[maxim + 6]
+        y_label=n[maxim + 7]
+        aux.append(['KNN Classifier with K = '+kStr, K, etiquetas, x_label, y_label, n[len(n)-3],n[len(n)-2]])
       print(aux)
       knn.plot2(aux)
 

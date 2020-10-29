@@ -72,9 +72,9 @@ def getGraph(df):
     elif(int(e4.get())<=int(e5.get()) and len(e1.get())==0):
         aux=[]
         for k in range(int(e4.get()),int(e5.get())+1):
-            print(k)
             csvUtils = cu.CSVUtilities()
             tupleToPrint = csvUtils.getTupleToPrint(df)
+            print(len(tupleToPrint))
             cabeceras = csvUtils.getHeaders(df)
             minValue = csvUtils.getMin(df)
             maxValue = csvUtils.getMax(df)
@@ -89,7 +89,7 @@ def getGraph(df):
             etiquetas=tags
             x_label=cabeceras[0]
             y_label=cabeceras[1]
-            aux.append([*tupleToPrint, Kk, minValue, maxValue, step, etiquetas, x_label, y_label,int(e4.get()),int(e5.get())])
+            aux.append([*tupleToPrint, Kk, minValue, maxValue, step, etiquetas, x_label, y_label,int(e4.get()),int(e5.get()),len(tags)])
         plotter.variasGraficas(aux)
     else:
         toplevel = Toplevel()
@@ -121,9 +121,7 @@ def getCSV ():
     if(len(separator)>0):
         import_file_path = filedialog.askopenfilename()
         df = pd.read_csv(import_file_path,sep=separator,engine='python')
-        print(len(df))
         data = df.values
-        print(len(data[0]))
         if(len(data[0])==3):
             csvButton.grid_remove()
             tk.Label(master, 
@@ -156,7 +154,6 @@ def getCSV ():
 
 def getStepRecomendado(df):
     toplevel = Toplevel()
-    print(len(df.values))
     label1 = Label(toplevel, text='El valor recomendado del step es:', height=0, width=50)
     label1.pack()
     label2 = Label(toplevel, text=str(130/(len(df.values))), height=0, width=50)
