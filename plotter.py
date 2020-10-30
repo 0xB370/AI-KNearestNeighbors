@@ -72,9 +72,15 @@ class KnnClassifier():
     self.y_train = y
     newY = y
     self.tagsEmp = []
-    while len(newY) > 0:
-      self.tagsEmp.append(newY[0])
-      newY = list(filter(lambda y : y != newY[0], newY))
+    if isinstance(newY[0], np.ndarray):
+      for subArr in newY:
+        while len(subArr) > 0:
+          self.tagsEmp.append(subArr[0])
+          subArr = list(filter(lambda y : y != subArr[0], subArr))
+    else:
+      while len(newY) > 0:
+          self.tagsEmp.append(newY[0])
+          newY = list(filter(lambda y : y != newY[0], newY))
     self.tagsEmp.append(self.tagsEmp[len(self.tagsEmp)-1] + 1)
 
   def predict(self, x):
