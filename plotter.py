@@ -70,18 +70,6 @@ class KnnClassifier():
     self.k = k
     self.x_train = x
     self.y_train = y
-    newY = y
-    self.tagsEmp = []
-    if isinstance(newY[0], np.ndarray):
-      for subArr in newY:
-        while len(subArr) > 0:
-          self.tagsEmp.append(subArr[0])
-          subArr = list(filter(lambda y : y != subArr[0], subArr))
-    else:
-      while len(newY) > 0:
-          self.tagsEmp.append(newY[0])
-          newY = list(filter(lambda y : y != newY[0], newY))
-    self.tagsEmp.append(self.tagsEmp[len(self.tagsEmp)-1] + 1)
 
   def predict(self, x):
     """Predicción de clase para cada elemento de x
@@ -120,7 +108,7 @@ class KnnClassifier():
       # En caso de haber empate, se tomará la clase del punto de menor distancia
       posicion = utils.posicionesValor(arr=votes, valor=max(votes))
       # Si hay más de una clase con conteo de votos máximo
-      """ if (len(posicion) > 1):
+      if (len(posicion) > 1):
         # Posición simepre va a ser un array, debido a que hay más de un elemento con el valor máximo de votos. Este arreglo contiene las posiciones del arreglo votes que empataron con la máxima cantidad de votos
         bandera = False
         # Con argsort obtenemos un arreglo con las posiciones de los elementos que van de menor a mayor en el arreglo de distancias
@@ -137,10 +125,6 @@ class KnnClassifier():
           if (bandera):
               break
       else:
-        predictions.append(max(range(len(votes)), key=votes.__getitem__)) """
-      if (len(posicion) > 1):
-        predictions.append(self.tagsEmp[len(self.tagsEmp)-1])
-      else:
         predictions.append(max(range(len(votes)), key=votes.__getitem__))
     return predictions
 
@@ -154,7 +138,7 @@ class knnHelper():
     k -- número de vecinos más cercanos
     """
     # Definición de cantidad de clases
-    self.nof_classes = len(x) + 1
+    self.nof_classes = len(x)
     # Definición de training samples
     self.x_train = x
     # Creación de array de labels
@@ -214,68 +198,22 @@ class knnHelper():
     for i, x in enumerate(self.x_train):
       legendClass, = plt.plot(*x.T, paleta_colores[i] + 'o', label=etiquetas[i])
       legends.append(legendClass)
-    unclass = mpatches.Patch(color='grey', label="Unclassified")
-    legends.append(unclass)
+    kValue = mpatches.Patch(color='cornflowerblue', label="K="+str(K))
+    legends.append(kValue)
     plt.legend(handles=[*legends], loc='upper right')
     # Pintando la grilla
     for i, x in enumerate(self.classified):
-        if (i == (self.nof_classes - 1)):
-          print('VA A IMPRIMIR NEGRO')
-          plot.plot(*x.T, 'k' + ',')
-        else:
-          plot.plot(*x.T, paleta_colores[i] + ',')
+      plot.plot(*x.T, paleta_colores[i] + ',')
     plt.show()
 
-  def plot2(self, arrArgs):
-    for arrArg in arrArgs:
-      """Visualización de los resultados de la clasificación"""
-      plot = init_plot(self.range, self.range, x_label=arrArg[3], y_label=arrArg[4])
-      plot.set_title(arrArg[0])
-      plot.grid(False)
-      # Gráfica de los puntos de prueba y sus respectivas leyendas
-      legends = []
-      for i, x in enumerate(self.x_train):
-        legendClass, = plt.plot(*x.T, paleta_colores[i] + 'o', label=arrArg[2][i])
-        legends.append(legendClass)
-      unclass = mpatches.Patch(color='grey', label="Unclassified")
-      legends.append(unclass)
-      plt.legend(handles=[*legends], loc='upper right')
-      # Pintando la grilla
-      for i, x in enumerate(self.classified):
-        if (i == (self.nof_classes)):
-          plot.plot(*x.T, 'k' + ',')
-        else:
-          plot.plot(*x.T, paleta_colores[i] + ',')
-    plt.show()
+
 
 class Plotter: 
     def plotKnnGraphic(self, *tupleToPrint, K, minValue, maxValue, step, etiquetas, x_label, y_label):
       knn = knnHelper(*tupleToPrint, k=K)
       knn.generateGridPoints(min=minValue, max=maxValue, step=step)
       knn.analyse()
-      kStr = str(K)
-      knn.plot(t='KNN Classifier with K = '+kStr, K=K, etiquetas=etiquetas, x_label=x_label, y_label=y_label)
+      knn.plot(t='KNN Classifier', K=K, etiquetas=etiquetas, x_label=x_label, y_label=y_label)
 
-    def variasGraficas(self,arrArgs):
-      aux = []
-      for n in arrArgs:
-        auxArr=[]
-        maxim = n[len(n)- 1] - 1
-        ##aux3 = np.array([n[0],n[1],n[2]])
-        for i in range(0,maxim+1):
-          auxArr.append(n[i])
-        aux3 = np.array(auxArr)
-        knn = knnHelper(*aux3, k=n[maxim+1])
-        knn.generateGridPoints(min=n[maxim + 2], max=n[maxim + 3], step=n[maxim + 4])
-        knn.analyse()
-        kStr = str(n[maxim + 1])
-        K=n[maxim + 1]
-        etiquetas=n[maxim + 5]
-        print(etiquetas)
-        x_label=n[maxim + 6]
-        y_label=n[maxim + 7]
-        aux.append(['KNN Classifier with K = '+kStr, K, etiquetas, x_label, y_label, n[len(n)-3],n[len(n)-2]])
-      print(aux)
-      knn.plot2(aux)
 
             
