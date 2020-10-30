@@ -1,6 +1,6 @@
 # Python program to create a table 
 
-from tkinter import Entry, END, sys
+from tkinter import *
 
 class Table: 
 	
