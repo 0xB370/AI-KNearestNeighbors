@@ -1,10 +1,4 @@
-import pandas as pd
-from sklearn.metrics import accuracy_score
-from sklearn.model_selection import train_test_split
-
 import numpy as np
-import plotter as msg
-
 
 class CSVUtilities: 
     def getTupleToPrint(self, dataset):
