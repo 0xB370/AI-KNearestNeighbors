@@ -10,7 +10,7 @@ def crossValidation(df):
     x=df.iloc[:,[0,1]].values
     y=df.iloc[:,2].values
     folds = int(len(x))
-    kRange = int(len(x) - 1)
+    kRange = int(len(x) - 1)  
     
     
     # Definimos el rango de K a calcular
@@ -104,10 +104,10 @@ def crossValidation(df):
         
     avg = acum / kMax
     
-    print(avg)
-    print(kMax)
-    print(acum)
-    
+    print("Exactitud promedio: " + str(avg))
     resSorted = sorted(res, key=itemgetter(1), reverse=True)
+    print("K Optimo: ")
+    print(resSorted[0])
+    print(res)
     
     return res
