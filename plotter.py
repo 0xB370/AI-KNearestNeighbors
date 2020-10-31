@@ -101,6 +101,9 @@ class KnnClassifier():
       distances = np.array([]) 
       aux = abs((x_test - self.x_train))
       distances = [sum(l) for l in aux]
+      # Redondeamos a 2 decimales los valores de distances
+      for ix in range(len(distances)):
+        distances[ix] = float("%.2f" % distances[ix])
       votes = []
       for ix in range(nof_classes):
         votes.append(0)
@@ -214,14 +217,13 @@ class knnHelper():
     for i, x in enumerate(self.x_train):
       legendClass, = plt.plot(*x.T, paleta_colores[i] + 'o', label=etiquetas[i])
       legends.append(legendClass)
-    unclass = mpatches.Patch(color='grey', label="Unclassified")
+    unclass = mpatches.Patch(color='w', label="Unclassified")
     legends.append(unclass)
-    plt.legend(handles=[*legends], loc='upper right')
+    plt.legend(handles=[*legends], loc='upper right', facecolor="lightgrey")
     # Pintando la grilla
     for i, x in enumerate(self.classified):
         if (i == (self.nof_classes - 1)):
-          print('VA A IMPRIMIR NEGRO')
-          plot.plot(*x.T, 'k' + ',')
+          plot.plot(*x.T, 'w' + '+')
         else:
           plot.plot(*x.T, paleta_colores[i] + ',')
     plt.show()
@@ -237,9 +239,9 @@ class knnHelper():
       for i, x in enumerate(self.x_train):
         legendClass, = plt.plot(*x.T, paleta_colores[i] + 'o', label=arrArg[2][i])
         legends.append(legendClass)
-      unclass = mpatches.Patch(color='grey', label="Unclassified")
+      unclass = mpatches.Patch(color='w', label="Unclassified")
       legends.append(unclass)
-      plt.legend(handles=[*legends], loc='upper right')
+      plt.legend(handles=[*legends], loc='upper right', facecolor="lightgrey")
       # Pintando la grilla
       for i, x in enumerate(self.classified):
         if (i == (self.nof_classes)):
