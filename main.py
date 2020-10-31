@@ -36,9 +36,15 @@ def kRanking(df):
     #     [9,87, False],
     #     [10,5, False],
     # ]
-    if(len(df)>=10):    
+    if(len(df)>=10):
         optimos = crossVal(df)
-        pos = 23
+        pos = 24
+        tk.Label(master, 
+                 text="K").grid(row=23,column=0)
+        tk.Label(master, 
+                 text="Promedios").grid(row=23,column=1)
+        tk.Label(master, 
+                 text="Optimo/s").grid(row=23,column=2)
         kRankingTable = Table(master,optimos,pos)
     else:
         toplevel = Toplevel()
