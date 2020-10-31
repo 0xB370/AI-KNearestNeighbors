@@ -38,13 +38,13 @@ def kRanking(df):
     # ]
     if(len(df)>=10):
         optimos = crossVal(df)
-        pos = 24
+        pos = 25
         tk.Label(master, 
-                 text="K").grid(row=23,column=0)
+                 text="K").grid(row=24,column=0)
         tk.Label(master, 
-                 text="Promedios").grid(row=23,column=1)
+                 text="Promedios").grid(row=24,column=1)
         tk.Label(master, 
-                 text="Optimo/s").grid(row=23,column=2)
+                 text="Optimo/s").grid(row=24,column=2)
         kRankingTable = Table(master,optimos,pos)
     else:
         toplevel = Toplevel()
@@ -132,7 +132,13 @@ def getCSV ():
             csvButton.grid_remove()
             tk.Label(master, 
                  text="Vista Previa de los datos del CSV:").grid(row=9,column=1)
-            table = Table(master,data,10);
+            tk.Label(master, 
+                 text="X").grid(row=10,column=0)
+            tk.Label(master, 
+                     text="Y").grid(row=10,column=1)
+            tk.Label(master, 
+                 text="Clases").grid(row=10,column=2)
+            table = Table(master,data,11);
             tk.Button(master, 
                   text='Calcular K Optimo', command=lambda: kRanking(df)).grid(row=22, 
                                                                column=1, 
