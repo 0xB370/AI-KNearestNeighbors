@@ -101,9 +101,6 @@ class KnnClassifier():
       distances = np.array([]) 
       aux = abs((x_test - self.x_train))
       distances = [sum(l) for l in aux]
-      # Redondeamos a 2 decimales los valores de distances
-      for ix in range(len(distances)):
-        distances[ix] = float("%.2f" % distances[ix])
       votes = []
       for ix in range(nof_classes):
         votes.append(0)
@@ -201,6 +198,11 @@ class knnHelper():
                           if t == tag])
       self.classified.append(clasificacion_i)
     return self.y_test
+    
+  
+  """ def getYTest(self):
+    return self.y_test """
+  
 
   def plot(self, t='', K=5, etiquetas=[], x_label="X", y_label="Y"):
     """Visualización de los resultados de la clasificación"""
@@ -212,13 +214,14 @@ class knnHelper():
     for i, x in enumerate(self.x_train):
       legendClass, = plt.plot(*x.T, paleta_colores[i] + 'o', label=etiquetas[i])
       legends.append(legendClass)
-    unclass = mpatches.Patch(color='w', label="Unclassified")
+    unclass = mpatches.Patch(color='grey', label="Unclassified")
     legends.append(unclass)
-    plt.legend(handles=[*legends], loc='upper right', facecolor="lightgrey")
+    plt.legend(handles=[*legends], loc='upper right')
     # Pintando la grilla
     for i, x in enumerate(self.classified):
         if (i == (self.nof_classes - 1)):
-          plot.plot(*x.T, 'w' + '+')
+          print('VA A IMPRIMIR NEGRO')
+          plot.plot(*x.T, 'k' + ',')
         else:
           plot.plot(*x.T, paleta_colores[i] + ',')
     plt.show()
@@ -234,9 +237,9 @@ class knnHelper():
       for i, x in enumerate(self.x_train):
         legendClass, = plt.plot(*x.T, paleta_colores[i] + 'o', label=arrArg[2][i])
         legends.append(legendClass)
-      unclass = mpatches.Patch(color='w', label="Unclassified")
+      unclass = mpatches.Patch(color='grey', label="Unclassified")
       legends.append(unclass)
-      plt.legend(handles=[*legends], loc='upper right', facecolor="lightgrey")
+      plt.legend(handles=[*legends], loc='upper right')
       # Pintando la grilla
       for i, x in enumerate(self.classified):
         if (i == (self.nof_classes)):
@@ -268,11 +271,10 @@ class Plotter:
         kStr = str(n[maxim + 1])
         K=n[maxim + 1]
         etiquetas=n[maxim + 5]
-        print(etiquetas)
+        print('Esste es el K'+str(K))
         x_label=n[maxim + 6]
         y_label=n[maxim + 7]
         aux.append(['KNN Classifier with K = '+kStr, K, etiquetas, x_label, y_label, n[len(n)-3],n[len(n)-2]])
-      print(aux)
       knn.plot2(aux)
 
             

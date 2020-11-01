@@ -9,9 +9,6 @@ import plotter as msg
 import loadCsv as cu
 from pruebaKFoldCrossValidation import crossValidation as crossVal
 
-# 0. Ver que puede estar pasando con la perfomance
-# 1. Mostrar ejemplo de step de grid
-# 3. En vez de botón step recomendado mostrar texto
 # 5. Mostrar el K optimo (el valor de true)
 # 6. Mostrar la exactitud promedio
 
@@ -82,27 +79,34 @@ def getGraph(df):
             label2 = Label(toplevel, text='Debe ingresar el valor del Step', height=0, width=50)
             label2.pack()
     elif(int(e4.get())<=int(e5.get()) and len(e1.get())==0):
-        aux=[]
-        for k in range(int(e4.get()),int(e5.get())+1):
-            csvUtils = cu.CSVUtilities()
-            tupleToPrint = csvUtils.getTupleToPrint(df)
-            print(len(tupleToPrint))
-            cabeceras = csvUtils.getHeaders(df)
-            minValue = csvUtils.getMin(df)
-            maxValue = csvUtils.getMax(df)
-            tags = csvUtils.getTags(df)
-            K = int(k)
-            step = float(e2.get())
-            plotter = msg.Plotter()
-            Kk=K
-            minValue=minValue
-            maxValue=maxValue
-            step=step
-            etiquetas=tags
-            x_label=cabeceras[0]
-            y_label=cabeceras[1]
-            aux.append([*tupleToPrint, Kk, minValue, maxValue, step, etiquetas, x_label, y_label,int(e4.get()),int(e5.get()),len(tags)])
-        plotter.variasGraficas(aux)
+        if(len(e2.get())>0):
+            aux=[]
+            for k in range(int(e4.get()),int(e5.get())+1):
+                csvUtils = cu.CSVUtilities()
+                tupleToPrint = csvUtils.getTupleToPrint(df)
+                print(len(tupleToPrint))
+                cabeceras = csvUtils.getHeaders(df)
+                minValue = csvUtils.getMin(df)
+                maxValue = csvUtils.getMax(df)
+                tags = csvUtils.getTags(df)
+                K = int(k)
+                step = float(e2.get())
+                plotter = msg.Plotter()
+                Kk=K
+                minValue=minValue
+                maxValue=maxValue
+                step=step
+                etiquetas=tags
+                x_label=cabeceras[0]
+                y_label=cabeceras[1]
+                aux.append([*tupleToPrint, Kk, minValue, maxValue, step, etiquetas, x_label, y_label,int(e4.get()),int(e5.get()),len(tags)])
+            plotter.variasGraficas(aux)
+        else:
+            toplevel = Toplevel()
+            label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
+            label1.pack()
+            label2 = Label(toplevel, text='Debe ingresar el valor del Step', height=0, width=50)
+            label2.pack()            
     else:
         toplevel = Toplevel()
         label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
