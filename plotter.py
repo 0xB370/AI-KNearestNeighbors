@@ -198,11 +198,6 @@ class knnHelper():
                           if t == tag])
       self.classified.append(clasificacion_i)
     return self.y_test
-    
-  
-  """ def getYTest(self):
-    return self.y_test """
-  
 
   def plot(self, t='', K=5, etiquetas=[], x_label="X", y_label="Y"):
     """Visualización de los resultados de la clasificación"""
