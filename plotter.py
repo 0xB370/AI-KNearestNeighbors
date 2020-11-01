@@ -198,11 +198,9 @@ class knnHelper():
                           if t == tag])
       self.classified.append(clasificacion_i)
     return self.y_test
-    
   
-  """ def getYTest(self):
-    return self.y_test """
-  
+  def getClassified(self):
+    return self.classified
 
   def plot(self, t='', K=5, etiquetas=[], x_label="X", y_label="Y"):
     """Visualización de los resultados de la clasificación"""
@@ -229,7 +227,14 @@ class knnHelper():
   def plot2(self, arrArgs):
     for arrArg in arrArgs:
       """Visualización de los resultados de la clasificación"""
-      plot = init_plot(self.range, self.range, x_label=arrArg[3], y_label=arrArg[4])
+      maxim = arrArg[9]
+      n = arrArg[8]
+      knn = arrArg[7]
+      knn.generateGridPoints(min=n[maxim + 2], max=n[maxim + 3], step=n[maxim + 4])
+      range = [n[maxim + 2], n[maxim + 3]]
+      knn.analyse()
+      classified = knn.getClassified()
+      plot = init_plot(range, range, x_label=arrArg[3], y_label=arrArg[4])
       plot.set_title(arrArg[0])
       plot.grid(False)
       # Gráfica de los puntos de prueba y sus respectivas leyendas
@@ -241,7 +246,7 @@ class knnHelper():
       legends.append(unclass)
       plt.legend(handles=[*legends], loc='upper right', facecolor="lightgrey")
       # Pintando la grilla
-      for i, x in enumerate(self.classified):
+      for i, x in enumerate(classified):
         if (i == (self.nof_classes - 1)):
           plot.plot(*x.T, 'w' + '+')
         else:
@@ -261,21 +266,19 @@ class Plotter:
       for n in arrArgs:
         auxArr=[]
         maxim = n[len(n)- 1] - 1
-        ##aux3 = np.array([n[0],n[1],n[2]])
         for i in range(0,maxim+1):
           auxArr.append(n[i])
         aux3 = np.array(auxArr)
         knn = knnHelper(*aux3, k=n[maxim+1])
-        knn.generateGridPoints(min=n[maxim + 2], max=n[maxim + 3], step=n[maxim + 4])
-        knn.analyse()
+        """ knn.generateGridPoints(min=n[maxim + 2], max=n[maxim + 3], step=n[maxim + 4])
+        knn.analyse() """
         kStr = str(n[maxim + 1])
         K=n[maxim + 1]
         etiquetas=n[maxim + 5]
         print('Esste es el K'+str(K))
         x_label=n[maxim + 6]
         y_label=n[maxim + 7]
-        aux.append(['KNN Classifier with K = '+kStr, K, etiquetas, x_label, y_label, n[len(n)-3],n[len(n)-2]])
-        knn.plot(t='KNN Classifier with K = '+kStr, K=K, etiquetas=etiquetas, x_label=x_label, y_label=y_label)
-      # knn.plot2(aux)
+        aux.append(['KNN Classifier with K = '+kStr, K, etiquetas, x_label, y_label, n[len(n)-3],n[len(n)-2], knn, n, maxim])
+      knn.plot2(aux)
 
             
