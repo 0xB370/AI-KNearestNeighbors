@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import collections as col
 # Paleta de colores para la gráfica
-paleta_colores = ('r', 'b', 'g', 'c', 'm', 'y', 'k', 'w')
+paleta_colores = ('r', 'b', 'g', 'c', 'm', 'y', 'k')
 
 # Sobreescritura el estilo por defecto
 plt.style.use('default')
@@ -91,7 +91,7 @@ class KnnClassifier():
           for item in sublist:
               flat_list.append(item)
       self.y_train = flat_list
-    nof_classes = max(range(len(self.y_train)), key=self.y_train.__getitem__) + 1
+    nof_classes = max(range(len(self.y_train)), key=self.y_train.__getitem__) + 2
     predictions = []
     
     for x_test in x:
@@ -129,7 +129,7 @@ class knnHelper():
     k -- número de vecinos más cercanos
     """
     # Definición de cantidad de clases
-    self.nof_classes = len(x) + 1
+    self.nof_classes = len(x)
     # Definición de training samples
     self.x_train = x
     # Creación de array de labels
@@ -184,10 +184,10 @@ class knnHelper():
     plt.legend(handles=[*legends], loc='upper right', facecolor="lightgrey")
     # Pintando la grilla
     for i, x in enumerate(self.classified):
-        if (i == (self.nof_classes - 1)):
-          plot.plot(*x.T, 'w' + '+')
-        else:
-          plot.plot(*x.T, paleta_colores[i] + ',')
+      if (i == (self.nof_classes)):
+        plot.plot(*x.T, 'w' + '+')
+      else:
+        plot.plot(*x.T, paleta_colores[i] + ',')
     fig = plt.figure(1)
     fig.canvas.set_window_title('KNN with K=' + str(K))
     plt.show()
@@ -195,6 +195,7 @@ class knnHelper():
   def plot2(self, arrArgs):
     for ix, arrArg in enumerate(arrArgs):
       """Visualización de los resultados de la clasificación"""
+      print('ESTÁ PROCESANDO EL GRÁFICO ' + str(ix))
       maxim = arrArg[9]
       n = arrArg[8]
       knn = arrArg[7]
@@ -215,7 +216,7 @@ class knnHelper():
       plt.legend(handles=[*legends], loc='upper right', facecolor="lightgrey")
       # Pintando la grilla
       for i, x in enumerate(classified):
-        if (i == (self.nof_classes - 1)):
+        if (i == (self.nof_classes)):
           plot.plot(*x.T, 'w' + '+')
         else:
           plot.plot(*x.T, paleta_colores[i] + ',')
@@ -224,28 +225,28 @@ class knnHelper():
     plt.show()
 
 class Plotter: 
-    def plotKnnGraphic(self, *tupleToPrint, K, minValue, maxValue, step, etiquetas, x_label, y_label):
-      knn = knnHelper(*tupleToPrint, k=K)
-      knn.generateGridPoints(min=minValue, max=maxValue, step=step)
-      knn.analyse()
-      kStr = str(K)
-      knn.plot(t='KNN Classifier with K = '+kStr, K=K, etiquetas=etiquetas, x_label=x_label, y_label=y_label)
+  def plotKnnGraphic(self, *tupleToPrint, K, minValue, maxValue, step, etiquetas, x_label, y_label):
+    knn = knnHelper(*tupleToPrint, k=K)
+    knn.generateGridPoints(min=minValue, max=maxValue, step=step)
+    knn.analyse()
+    kStr = str(K)
+    knn.plot(t='KNN Classifier with K = '+kStr, K=K, etiquetas=etiquetas, x_label=x_label, y_label=y_label)
 
-    def variasGraficas(self,arrArgs):
-      aux = []
-      for n in arrArgs:
-        auxArr=[]
-        maxim = n[len(n)- 1] - 1
-        for i in range(0,maxim+1):
-          auxArr.append(n[i])
-        aux3 = np.array(auxArr)
-        knn = knnHelper(*aux3, k=n[maxim+1])
-        kStr = str(n[maxim + 1])
-        K=n[maxim + 1]
-        etiquetas=n[maxim + 5]
-        x_label=n[maxim + 6]
-        y_label=n[maxim + 7]
-        aux.append(['KNN Classifier with K = '+kStr, K, etiquetas, x_label, y_label, n[len(n)-3],n[len(n)-2], knn, n, maxim])
-      knn.plot2(aux)
+  def variasGraficas(self,arrArgs):
+    aux = []
+    for n in arrArgs:
+      auxArr=[]
+      maxim = n[len(n)- 1] - 1
+      for i in range(0,maxim+1):
+        auxArr.append(n[i])
+      aux3 = np.array(auxArr)
+      knn = knnHelper(*aux3, k=n[maxim+1])
+      kStr = str(n[maxim + 1])
+      K=n[maxim + 1]
+      etiquetas=n[maxim + 5]
+      x_label=n[maxim + 6]
+      y_label=n[maxim + 7]
+      aux.append(['KNN Classifier with K = '+kStr, K, etiquetas, x_label, y_label, n[len(n)-3],n[len(n)-2], knn, n, maxim])
+    knn.plot2(aux)
 
             
