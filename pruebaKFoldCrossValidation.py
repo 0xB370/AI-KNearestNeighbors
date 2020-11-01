@@ -5,15 +5,11 @@ import plotter as plt
 from operator import itemgetter
 from plotter import UtilsFunctions
 
-def crossValidation(df):
-    
+def crossValidation(df):  
     x=df.iloc[:,[0,1]].values
     y=df.iloc[:,2].values
     folds = int(len(x))
     kRange = int(len(x) - 1)
-    # kRange = 11
-    
-    
     # Definimos el rango de K a calcular
     k=range(1,kRange)
     # Creo un array con los distintos tags (Si en el dataset se tienen clasificaciones con tags 'C1' y 'C2', este array será ['C1', 'C2'])
@@ -101,18 +97,6 @@ def crossValidation(df):
     for el in res:
         acum += el[1]
     avg = acum / kRange
-    print(avg)
     # Cortamos el array de respuesta a 10 elementos
     cutRes = res[0:10]
-    """ for el in res:
-        acum = acum + el[1]
-        kMax = el[0]
-    avg = acum / kMax
-    print("Exactitud promedio: " + str(avg))
-    resSorted = sorted(res, key=itemgetter(1), reverse=True)
-    print("K Optimo: ")
-    print(resSorted[0])
-    print(res) """
-    
     return [avg, cutRes, res[posiciones[0]]]
-    #return cutRes
