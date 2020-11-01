@@ -48,7 +48,10 @@ def kRanking(df):
                  text="Promedios").grid(row=24,column=1)
         tk.Label(master, 
                  text="Optimo/s").grid(row=24,column=2)
-        kRankingTable = Table(master,optimos,pos)
+        kRankingTable = Table(master,optimos[1],pos)
+        tk.Label(text="Promedio: %.2f"%(optimos[0])).grid(row=25,column=3)
+        tk.Label(text="K óptimo Verdadero: "+str((optimos[2])[0])).grid(row=26,column=3)
+
     else:
         toplevel = Toplevel()
         label1 = Label(toplevel, text='Ocurrió un error, el dataset tiene', height=0, width=50)
