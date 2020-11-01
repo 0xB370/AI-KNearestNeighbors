@@ -87,7 +87,6 @@ def getGraph(df):
             for k in range(int(e4.get()),int(e5.get())+1):
                 csvUtils = cu.CSVUtilities()
                 tupleToPrint = csvUtils.getTupleToPrint(df)
-                print(len(tupleToPrint))
                 cabeceras = csvUtils.getHeaders(df)
                 minValue = csvUtils.getMin(df)
                 maxValue = csvUtils.getMax(df)

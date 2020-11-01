@@ -43,10 +43,8 @@ class UtilsFunctions():
     return resultado
   
   def array_split(self, data, folds):
-    length = int(len(data)/folds) #length of each fold
+    length = int(len(data)/folds) # Tamaño de cada fold
     res = []
-    """ for i in range(folds):
-        res.append([]) """
     largo = 0
     for j in range(folds):
         values = []
@@ -104,12 +102,7 @@ class KnnClassifier():
       votes = []
       for ix in range(nof_classes):
         votes.append(0)
-      # votes = np.zeros(nof_classes, dtype=np.int)
       # Búsqueda de los K vecinos más cercanos y votación
-      # argsort devuelve los índices que ordenarían un array
-      # Por lo tanto, los índices de los vecinos más cercanos
-      # El [:self.k] es un slice del array obtenido en np.argsort
-      # Es decir, lo deja en k valores
       utils = UtilsFunctions()
       for neighbor_id in utils.ordenIndices(seq=distances)[:self.k]:
         # Este label corresponde a uno de los vecinos más cercanos
@@ -117,27 +110,9 @@ class KnnClassifier():
         # Actualización del arreglo de votos
         votes[neighbor_label] += 1
       # El label predicho es el que tiene la mayor cantidad de votos
-      # En caso de haber empate, se tomará la clase del punto de menor distancia
+      # En caso de haber empate, se le asignará una clase "Unclassified"
       posicion = utils.posicionesValor(arr=votes, valor=max(votes))
       # Si hay más de una clase con conteo de votos máximo
-      """ if (len(posicion) > 1):
-        # Posición simepre va a ser un array, debido a que hay más de un elemento con el valor máximo de votos. Este arreglo contiene las posiciones del arreglo votes que empataron con la máxima cantidad de votos
-        bandera = False
-        # Con argsort obtenemos un arreglo con las posiciones de los elementos que van de menor a mayor en el arreglo de distancias
-        orden = utils.ordenIndices(seq=distances)
-        # Iteramos sobre el arreglo obtenido anteriormente tratando primero los puntos más cercanos, y alejándonos gradualmente en cada iteración
-        for i in range(len(orden)):
-          # Por cada elemento de distances nos fijamos si la clase del punto en cuestión pertenece a las clases que empataron, las cuales se encuentran en el arreglo posición
-          for j in range(len(posicion)):
-            # Si la distancia mínima tratada en esta iteración existe en el arreglo de las clases que obtuvieron mayor cantidad de votos (posición), se lo agrega a predictions y se sale de los loops
-            if (self.y_train[orden[i]] == posicion[j]):
-              predictions.append(self.y_train[orden[i]])
-              bandera = True
-              break
-          if (bandera):
-              break
-      else:
-        predictions.append(max(range(len(votes)), key=votes.__getitem__)) """
       if (len(posicion) > 1):
         predictions.append(self.tagsEmp[len(self.tagsEmp)-1])
       else:
@@ -161,7 +136,6 @@ class knnHelper():
     y = [i * np.ones(_x.shape[0], dtype=np.int) for i, _x in enumerate(x)]
     y = np.array(y).ravel()
     # Creación de un flat array para NearestNeighbor
-    # concatenate([array([0, 0]), array([1, 1]), array([2, 2]), array([3, 3]), array([4, 4])]) = [0 0 1 1 2 2 3 3 4 4]
     x = np.concatenate(x, axis=0)
     # Inicialización de clasificador
     self.nn = KnnClassifier(x, y, k)
@@ -171,15 +145,8 @@ class knnHelper():
     # Definición del rango
     self.range = [min, max]
     # Definición del grid de [min, max] x [min, max] puntos
-    # Ejemplos de np.mgrid:
-    # np.mgrid[0:7:5] => array([0, 5])
-    # np.mgrid[0:15:5] => array([ 0,  5, 10])
-    # np.mgrid[0:15:2] => array([ 0,  2,  4,  6,  8, 10, 12, 14])
     grilla = np.mgrid[min:max+step:step, min:max+step:step]
     # Conversión a array de puntos bidimensionales
-    # np.vstack apila arrays verticalmente
-    # np.vstack(([1,2,3],[2,3,4])) = array([[1, 2, 3],
-    #                                       [2, 3, 4]])
     self.x_test = np.vstack([grilla[0].ravel(), grilla[1].ravel()]).T
   
   def setXTest(self, x_test):
@@ -218,14 +185,15 @@ class knnHelper():
     # Pintando la grilla
     for i, x in enumerate(self.classified):
         if (i == (self.nof_classes - 1)):
-          print('VA A IMPRIMIR NEGRO')
           plot.plot(*x.T, 'w' + '+')
         else:
           plot.plot(*x.T, paleta_colores[i] + ',')
+    fig = plt.figure(1)
+    fig.canvas.set_window_title('KNN with K=' + str(K))
     plt.show()
 
   def plot2(self, arrArgs):
-    for arrArg in arrArgs:
+    for ix, arrArg in enumerate(arrArgs):
       """Visualización de los resultados de la clasificación"""
       maxim = arrArg[9]
       n = arrArg[8]
@@ -251,6 +219,8 @@ class knnHelper():
           plot.plot(*x.T, 'w' + '+')
         else:
           plot.plot(*x.T, paleta_colores[i] + ',')
+      fig = plt.figure(ix+1)
+      fig.canvas.set_window_title('KNN with K=' + str(n[maxim+1]))
     plt.show()
 
 class Plotter: 
@@ -270,12 +240,9 @@ class Plotter:
           auxArr.append(n[i])
         aux3 = np.array(auxArr)
         knn = knnHelper(*aux3, k=n[maxim+1])
-        """ knn.generateGridPoints(min=n[maxim + 2], max=n[maxim + 3], step=n[maxim + 4])
-        knn.analyse() """
         kStr = str(n[maxim + 1])
         K=n[maxim + 1]
         etiquetas=n[maxim + 5]
-        print('Esste es el K'+str(K))
         x_label=n[maxim + 6]
         y_label=n[maxim + 7]
         aux.append(['KNN Classifier with K = '+kStr, K, etiquetas, x_label, y_label, n[len(n)-3],n[len(n)-2], knn, n, maxim])
