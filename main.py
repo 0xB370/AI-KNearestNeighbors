@@ -51,6 +51,7 @@ def kRanking(df):
         kRankingTable = Table(master,optimos[1],pos)
         tk.Label(text="Promedio: %.2f"%(optimos[0])).grid(row=25,column=3)
         tk.Label(text="K óptimo Verdadero: "+str((optimos[2])[0])).grid(row=26,column=3)
+        tk.Label(text="Exactitud K Optimo: %.2f"%optimos[2][1]).grid(row=27,column=3)
 
     else:
         toplevel = Toplevel()
