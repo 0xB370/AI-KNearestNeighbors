@@ -227,25 +227,27 @@ class knnHelper():
     plt.show()
 
   def plot2(self, arrArgs):
-    for arrArg in arrArgs:
-      """Visualización de los resultados de la clasificación"""
-      plot = init_plot(self.range, self.range, x_label=arrArg[3], y_label=arrArg[4])
-      plot.set_title(arrArg[0])
-      plot.grid(False)
-      # Gráfica de los puntos de prueba y sus respectivas leyendas
-      legends = []
-      for i, x in enumerate(self.x_train):
-        legendClass, = plt.plot(*x.T, paleta_colores[i] + 'o', label=arrArg[2][i])
-        legends.append(legendClass)
-      unclass = mpatches.Patch(color='grey', label="Unclassified")
-      legends.append(unclass)
-      plt.legend(handles=[*legends], loc='upper right')
-      # Pintando la grilla
-      for i, x in enumerate(self.classified):
-        if (i == (self.nof_classes)):
-          plot.plot(*x.T, 'k' + ',')
-        else:
-          plot.plot(*x.T, paleta_colores[i] + ',')
+    # for arrArg in arrArgs:
+    """Visualización de los resultados de la clasificación"""
+    plot = init_plot(self.range, self.range, x_label=arrArgs[3], y_label=arrArgs[4])
+    plot.set_title(arrArgs[0])
+    plot.grid(False)
+    # Gráfica de los puntos de prueba y sus respectivas leyendas
+    legends = []
+    for i, x in enumerate(self.x_train):
+      legendClass, = plt.plot(*x.T, paleta_colores[i] + 'o', label=arrArgs[2][i])
+      legends.append(legendClass)
+    unclass = mpatches.Patch(color='grey', label="Unclassified")
+    legends.append(unclass)
+    plt.legend(handles=[*legends], loc='upper right')
+    # Pintando la grilla
+    for i, x in enumerate(self.classified):
+      if (i == (self.nof_classes)):
+        plot.plot(*x.T, 'k' + ',')
+      else:
+        plot.plot(*x.T, paleta_colores[i] + ',')
+    plt.pause(0.05)
+    plt.ion()
     plt.show()
 
 class Plotter: 
@@ -274,7 +276,8 @@ class Plotter:
         print('Esste es el K'+str(K))
         x_label=n[maxim + 6]
         y_label=n[maxim + 7]
-        aux.append(['KNN Classifier with K = '+kStr, K, etiquetas, x_label, y_label, n[len(n)-3],n[len(n)-2]])
-      knn.plot2(aux)
+        # aux.append(['KNN Classifier with K = '+kStr, K, etiquetas, x_label, y_label, n[len(n)-3],n[len(n)-2]])
+        # knn.plot2(aux)
+        knn.plot2(['KNN Classifier with K = '+kStr, K, etiquetas, x_label, y_label, n[len(n)-3],n[len(n)-2]])
 
             
