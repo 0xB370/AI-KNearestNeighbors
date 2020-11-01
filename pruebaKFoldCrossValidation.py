@@ -10,7 +10,8 @@ def crossValidation(df):
     x=df.iloc[:,[0,1]].values
     y=df.iloc[:,2].values
     folds = int(len(x))
-    kRange = int(len(x) - 1)  
+    kRange = int(len(x) - 1)
+    # kRange = 11
     
     
     # Definimos el rango de K a calcular
@@ -93,21 +94,25 @@ def crossValidation(df):
     # Obtenemos las posiciones de los promedios más altos (Es decir, los K óptimos - Se puede dar el caso en que haya un empate de promedios más altos, en el cual tendremos más de un K óptimo - )
     posiciones = utils.posicionesValor(arr=promediosArr, valor=max(promediosArr))
     # Se ponen a True los K óptimos
-    acum = 0
-    kMax = 0
-    for index_max in range(len(posiciones)):
+    for index_max in posiciones:
         res[index_max][2] = True
-    
+    # Cálculo de la exactitud promedio
+    acum = 0
     for el in res:
+        acum += el[1]
+    avg = acum / kRange
+    print(avg)
+    # Cortamos el array de respuesta a 10 elementos
+    cutRes = res[0:10]
+    """ for el in res:
         acum = acum + el[1]
         kMax = el[0]
-        
     avg = acum / kMax
-    
     print("Exactitud promedio: " + str(avg))
     resSorted = sorted(res, key=itemgetter(1), reverse=True)
     print("K Optimo: ")
     print(resSorted[0])
-    print(res)
+    print(res) """
     
-    return res
+    # return [avg, cutRes, res[posiciones[0]]]
+    return cutRes
