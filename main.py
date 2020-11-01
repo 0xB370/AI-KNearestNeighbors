@@ -9,6 +9,12 @@ import plotter as msg
 import loadCsv as cu
 from pruebaKFoldCrossValidation import crossValidation as crossVal
 
+# 0. Ver que puede estar pasando con la perfomance
+# 1. Mostrar ejemplo de step de grid
+# 3. En vez de botón step recomendado mostrar texto
+# 5. Mostrar el K optimo (el valor de true)
+# 6. Mostrar la exactitud promedio
+
 # Lanzar mensajes de Error:
 # * Si no se ingresa el K antes de graficar
 # * Si no se ingresa el Step antes de graficar
@@ -149,7 +155,10 @@ def getCSV ():
                                                                column=2, 
                                                                sticky=tk.W, 
                                                                pady=0)
-            tk.Button(master,text='Step Recomendado', command=lambda: getStepRecomendado(df)).grid(row=5, column=1, pady=0)
+            csvUtils = cu.CSVUtilities()
+            maxValue = csvUtils.getMax(df)
+            tk.Label(master,text='Step recomendado:'+str(round((maxValue/178.828782333),2))).grid(row=5,column=0)
+            # tk.Button(master,text='Step Recomendado', command=lambda: getStepRecomendado(df)).grid(row=5, column=1, pady=0)
             tk.Button(master,text='Cargar Otro Archivo', command=getCSV).grid(row=5, column=2, pady=0)
         else:
             toplevel = Toplevel()
@@ -176,9 +185,9 @@ master.title("KNN")
 tk.Label(master, 
          text="Valor de K").grid(row=0)
 tk.Label(master, 
-         text="Step del Grid").grid(row=3,column=0)
+         text="Step del Grid (Ej: 0.2, 0.5)").grid(row=3,column=0)
 tk.Label(master, 
-         text="Separador CSV").grid(row=4,column=0)
+         text="Separador CSV (Ej: , ; -)").grid(row=4,column=0)
 
 aboutK = tk.Button(master,text='K?', command=clickAboutK)
 aboutK.grid(row=0,column=1)
