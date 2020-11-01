@@ -214,14 +214,14 @@ class knnHelper():
     for i, x in enumerate(self.x_train):
       legendClass, = plt.plot(*x.T, paleta_colores[i] + 'o', label=etiquetas[i])
       legends.append(legendClass)
-    unclass = mpatches.Patch(color='grey', label="Unclassified")
+    unclass = mpatches.Patch(color='w', label="Unclassified")
     legends.append(unclass)
-    plt.legend(handles=[*legends], loc='upper right')
+    plt.legend(handles=[*legends], loc='upper right', facecolor="lightgrey")
     # Pintando la grilla
     for i, x in enumerate(self.classified):
         if (i == (self.nof_classes - 1)):
           print('VA A IMPRIMIR NEGRO')
-          plot.plot(*x.T, 'k' + ',')
+          plot.plot(*x.T, 'w' + '+')
         else:
           plot.plot(*x.T, paleta_colores[i] + ',')
     plt.show()
@@ -237,13 +237,13 @@ class knnHelper():
       for i, x in enumerate(self.x_train):
         legendClass, = plt.plot(*x.T, paleta_colores[i] + 'o', label=arrArg[2][i])
         legends.append(legendClass)
-      unclass = mpatches.Patch(color='grey', label="Unclassified")
+      unclass = mpatches.Patch(color='w', label="Unclassified")
       legends.append(unclass)
-      plt.legend(handles=[*legends], loc='upper right')
+      plt.legend(handles=[*legends], loc='upper right', facecolor="lightgrey")
       # Pintando la grilla
       for i, x in enumerate(self.classified):
-        if (i == (self.nof_classes)):
-          plot.plot(*x.T, 'k' + ',')
+        if (i == (self.nof_classes - 1)):
+          plot.plot(*x.T, 'w' + '+')
         else:
           plot.plot(*x.T, paleta_colores[i] + ',')
     plt.show()
@@ -275,6 +275,7 @@ class Plotter:
         x_label=n[maxim + 6]
         y_label=n[maxim + 7]
         aux.append(['KNN Classifier with K = '+kStr, K, etiquetas, x_label, y_label, n[len(n)-3],n[len(n)-2]])
-      knn.plot2(aux)
+        knn.plot(t='KNN Classifier with K = '+kStr, K=K, etiquetas=etiquetas, x_label=x_label, y_label=y_label)
+      # knn.plot2(aux)
 
             
