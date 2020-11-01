@@ -114,5 +114,5 @@ def crossValidation(df):
     print(resSorted[0])
     print(res) """
     
-    # return [avg, cutRes, res[posiciones[0]]]
-    return cutRes
+    return [avg, cutRes, res[posiciones[0]]]
+    #return cutRes
