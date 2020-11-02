@@ -164,7 +164,7 @@ def getCSV ():
                                                                pady=0)
             csvUtils = cu.CSVUtilities()
             maxValue = csvUtils.getMax(df)
-            tk.Label(master,text='Step recomendado:'+str(round((maxValue/178.828782333),2))).grid(row=5,column=0)
+            tk.Label(master,text='Step recomendado: %.2f'%(maxValue/178.828782333)).grid(row=5,column=0)
             # tk.Button(master,text='Step Recomendado', command=lambda: getStepRecomendado(df)).grid(row=5, column=1, pady=0)
             tk.Button(master,text='Cargar Otro Archivo', command=getCSV).grid(row=5, column=2, pady=0)
         else:

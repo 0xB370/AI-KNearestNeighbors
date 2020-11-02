@@ -48,8 +48,7 @@ class CSVUtilities:
     def getMax(self, dataset):
         X = dataset.iloc[:, [0, 1]].values
         XAbs = np.absolute(X)
-        print(XAbs.max())
-        return abs(X.max())
+        return abs(XAbs.max())
 
     def getTags(self, dataset):
         Y = dataset.iloc[:, 2].values    
