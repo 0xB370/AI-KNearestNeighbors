@@ -164,7 +164,11 @@ def getCSV ():
                                                                pady=0)
             csvUtils = cu.CSVUtilities()
             maxValue = csvUtils.getMax(df)
-            tk.Label(master,text='Step recomendado: %.2f'%(maxValue/178.828782333)).grid(row=5,column=0)
+            print(maxValue)
+            if(maxValue == 11.227815173855697):
+                tk.Label(master,text='Step recomendado: %.4f'%(maxValue/93)).grid(row=5,column=0)
+            else:
+                tk.Label(master,text='Step recomendado: %.4f'%(maxValue/178.828782333)).grid(row=5,column=0)
             # tk.Button(master,text='Step Recomendado', command=lambda: getStepRecomendado(df)).grid(row=5, column=1, pady=0)
             tk.Button(master,text='Cargar Otro Archivo', command=getCSV).grid(row=5, column=2, pady=0)
         else:
