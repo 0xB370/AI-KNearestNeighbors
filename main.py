@@ -214,9 +214,12 @@ tk.Label(master,
          text="Rango K Hasta").grid(row=2,column=0)
 e5 = tk.Entry(master)
 e5.grid(row=2, column=2)
+
+comma = tk.StringVar()
+comma.set( "," )
 e1 = tk.Entry(master)
 e2 = tk.Entry(master)
-e3 = tk.Entry(master)
+e3 = tk.Entry(master, textvariable=comma)
 e1.grid(row=0, column=2)
 e2.grid(row=3, column=2)
 e3.grid(row=4, column=2)
