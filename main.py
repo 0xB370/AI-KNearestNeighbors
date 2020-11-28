@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import plotter as msg
 import loadCsv as cu
 from pruebaKFoldCrossValidation import crossValidation as crossVal
+from numpy.core.defchararray import isdigit
 
 # 5. Mostrar el K optimo (el valor de true)
 # 6. Mostrar la exactitud promedio
@@ -73,7 +74,17 @@ def getGraph(df):
             maxValue = csvUtils.getMax(df)
             tags = csvUtils.getTags(df)
             K = int(e1.get())
-            step = float(e2.get())
+            paso = e2.get()
+            if ',' in paso:
+                paso = paso.replace(",", ".")
+            try:
+                step = float(paso)
+            except:
+                toplevel = Toplevel()
+                label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
+                label1.pack()
+                label2 = Label(toplevel, text='El valor del Step debe ser un número', height=0, width=50)
+                label2.pack()
             plotter = msg.Plotter()
             plotter.plotKnnGraphic(*tupleToPrint, K=K, minValue=minValue, maxValue=maxValue, step=step, etiquetas=tags, x_label=cabeceras[0], y_label=cabeceras[1])
         else:
@@ -164,7 +175,6 @@ def getCSV ():
                                                                pady=0)
             csvUtils = cu.CSVUtilities()
             maxValue = csvUtils.getMax(df)
-            print(maxValue)
             if(maxValue == 11.227815173855697):
                 tk.Label(master,text='Step recomendado: %.4f'%(maxValue/93)).grid(row=5,column=0)
             else:
