@@ -73,7 +73,14 @@ def getGraph(df):
             minValue = csvUtils.getMin(df)
             maxValue = csvUtils.getMax(df)
             tags = csvUtils.getTags(df)
-            K = int(e1.get())
+            try:
+                K = int(e1.get())
+            except:
+                toplevel = Toplevel()
+                label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
+                label1.pack()
+                label2 = Label(toplevel, text='El valor de K debe ser un entero', height=0, width=50)
+                label2.pack()
             paso = e2.get()
             if ',' in paso:
                 paso = paso.replace(",", ".")
@@ -93,18 +100,50 @@ def getGraph(df):
             label1.pack()
             label2 = Label(toplevel, text='Debe ingresar el valor del Step', height=0, width=50)
             label2.pack()
-    elif(int(e4.get())<=int(e5.get()) and len(e1.get())==0):
+    elif( (len(e4.get()) > 0) and (len(e5.get()) > 0) and (len(e1.get())==0) ):
         if(len(e2.get())>0):
             aux=[]
-            for k in range(int(e4.get()),int(e5.get())+1):
+            try:
+                e4int = int(e4.get())
+                e5int = int(e5.get())
+                if (e4int >= e5int):
+                    toplevel = Toplevel()
+                    label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
+                    label1.pack()
+                    label2 = Label(toplevel, text='El valor de "Rango K Desde" debe ser menor que "Rango K Hasta"', height=0, width=65)
+                    label2.pack()
+            except:
+                toplevel = Toplevel()
+                label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
+                label1.pack()
+                label2 = Label(toplevel, text='El valor de K debe ser un entero', height=0, width=50)
+                label2.pack()
+            for k in range(int(e4.get()), int(e5.get()) + 1):
                 csvUtils = cu.CSVUtilities()
                 tupleToPrint = csvUtils.getTupleToPrint(df)
                 cabeceras = csvUtils.getHeaders(df)
                 minValue = csvUtils.getMin(df)
                 maxValue = csvUtils.getMax(df)
                 tags = csvUtils.getTags(df)
-                K = int(k)
-                step = float(e2.get())
+                try:
+                    K = int(k)
+                except:
+                    toplevel = Toplevel()
+                    label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
+                    label1.pack()
+                    label2 = Label(toplevel, text='El valor de K debe ser un entero', height=0, width=50)
+                    label2.pack()
+                paso = e2.get()
+                if ',' in paso:
+                    paso = paso.replace(",", ".")
+                try:
+                    step = float(paso)
+                except:
+                    toplevel = Toplevel()
+                    label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
+                    label1.pack()
+                    label2 = Label(toplevel, text='El valor del Step debe ser un número', height=0, width=50)
+                    label2.pack()
                 plotter = msg.Plotter()
                 Kk=K
                 minValue=minValue
@@ -175,10 +214,13 @@ def getCSV ():
                                                                pady=0)
             csvUtils = cu.CSVUtilities()
             maxValue = csvUtils.getMax(df)
+            stepRec = maxValue/178.828782333
             if(maxValue == 11.227815173855697):
                 tk.Label(master,text='Step recomendado: %.4f'%(maxValue/93)).grid(row=5,column=0)
+                e2.insert(0, maxValue/93)
             else:
-                tk.Label(master,text='Step recomendado: %.4f'%(maxValue/178.828782333)).grid(row=5,column=0)
+                tk.Label(master,text='Step recomendado: %.4f'%(stepRec)).grid(row=5,column=0)
+                e2.insert(0, stepRec)
             # tk.Button(master,text='Step Recomendado', command=lambda: getStepRecomendado(df)).grid(row=5, column=1, pady=0)
             tk.Button(master,text='Cargar Otro Archivo', command=getCSV).grid(row=5, column=2, pady=0)
         else:
@@ -225,6 +267,8 @@ tk.Label(master,
 e5 = tk.Entry(master)
 e5.grid(row=2, column=2)
 
+comma = tk.StringVar()
+comma.set( "," )
 comma = tk.StringVar()
 comma.set( "," )
 e1 = tk.Entry(master)
