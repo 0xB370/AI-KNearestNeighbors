@@ -4,14 +4,14 @@ from sklearn.metrics import accuracy_score
 import plotter as plt
 from operator import itemgetter
 from plotter import UtilsFunctions
+from numpy.core.defchararray import isdigit
 
 def crossValidation(df):  
     x=df.iloc[:,[0,1]].values
     y=df.iloc[:,2].values
-    folds = int(len(x))
-    kRange = int(len(x) - 1)
+    kRange = len(x) - 1
     # Definimos el rango de K a calcular
-    k=range(1,kRange)
+    k = range(1,kRange)
     # Creo un array con los distintos tags (Si en el dataset se tienen clasificaciones con tags 'C1' y 'C2', este array será ['C1', 'C2'])
     etiquetas = []
     newY = y
@@ -20,21 +20,16 @@ def crossValidation(df):
         newY = list(filter(lambda y : y != newY[0], newY))
     # La funcion accuracy_score solo funciona cuando los tags son números, no strings, por lo que hay que tratar esta condición
     # Armo el array yAcc = yAccuracy cambiando los strings por números
-    # TODO: Agregar condicional para que esto se ejecute solo en caso que las etiquetas tengan strings
     yAcc = y
-    for i in range(len(yAcc)):
-        for j in range(len(etiquetas)):
-            if (yAcc[i] == etiquetas[j]):
-                yAcc[i] = j
-    # Si el arreglo de etiquetas contiene strings, los paso a números para poder usarlas con la función accuracy_score
-    # TODO: Agregar condicional para que esto se ejecute solo en caso que las etiquetas tengan strings
     etiquetasAcc = etiquetas
-    for i in range(len(etiquetasAcc)):
-        etiquetasAcc[i] = i
-    # Dividimos los arrays en n folds (predeterminadamente, 5)
-    utils = UtilsFunctions()
-    splittedX = utils.array_split(data=x, folds=folds)
-    splittedY = utils.array_split(data=yAcc, folds=folds)
+    if isinstance(y[0], str):
+        for i in range(len(yAcc)):
+            for j in range(len(etiquetas)):
+                if (yAcc[i] == etiquetas[j]):
+                    yAcc[i] = j
+        # Si el arreglo de etiquetas contiene strings, los paso a números para poder usarlas con la función accuracy_score
+        for i in range(len(etiquetasAcc)):
+            etiquetasAcc[i] = i
     # Inicializo los arreglos para devolver la respuesta
     res = []
     promediosArr = []
@@ -43,22 +38,18 @@ def crossValidation(df):
         # Inicializamos el array para las predicciones 
         foldPred = []
         # Iteramos sobre la cantidad de folds, asignando a nuestro x_test e y_test un fold diferente en cada iteración
-        for j in range(folds):
+        for j in range(len(x)):
             # Armamos los sets de entrenamiento y testeo correspondiente a esta iteración (recordar que en cada una cambia el fold para asignar al set de testeo)
             x_train = []
             y_train = []
             # Como splittedX y splittedY tienen la misma longitud, podemos usar un solo for para tratar ambos
-            for k in range(len(splittedX)):
+            for k in range(len(x)):
                 if (k != j):
-                    for m in range(len(splittedX[k])):
-                        x_train.append(np.array(splittedX[k][m]))
-                        y_train.append(np.array(splittedY[k][m]))
+                    x_train.append(x[k])
+                    y_train.append(y[k])
                 else:
-                    x_test = []
-                    y_test = []
-                    for m in range(len(splittedX[k])):
-                        x_test.append(np.array(splittedX[k][m]))
-                        y_test.append(np.array(splittedY[k][m]))
+                    x_test = [x[k]]
+                    y_test = [y[k]]
             # Ya obtenidos los sets de entramiento y testeo, le damos el formato para pasarselo a nuestra función KNN y obtener las predicciones
             C = []
             for ix in range(len(etiquetasAcc)):
@@ -88,6 +79,7 @@ def crossValidation(df):
         # Anexamos a la variable de respuesta el valor de K y el promedio
         res.append([kValue, promedio, False])
     # Obtenemos las posiciones de los promedios más altos (Es decir, los K óptimos - Se puede dar el caso en que haya un empate de promedios más altos, en el cual tendremos más de un K óptimo - )
+    utils = UtilsFunctions()
     posiciones = utils.posicionesValor(arr=promediosArr, valor=max(promediosArr))
     # Se ponen a True los K óptimos
     for index_max in posiciones:
