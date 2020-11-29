@@ -219,7 +219,7 @@ class knnHelper():
         if (i == (self.nof_classes)):
           plot.plot(*x.T, 'w' + '+')
         else:
-          plot.plot(*x.T, paleta_colores[i] + ',')
+          plot.plot(*x.T, paleta_colores[i] + 'h', alpha=0.4)
       fig = plt.figure(ix+1)
       fig.canvas.set_window_title('KNN with K=' + str(n[maxim+1]))
     plt.show()
