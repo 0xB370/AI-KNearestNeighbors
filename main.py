@@ -27,32 +27,19 @@ from numpy.core.defchararray import isdigit
 # 4- Sugerir el valor de step haciendo el calculo tamañoDataSet/step = 130
 
 def kRanking(df):
-    # optimos = [
-    #     ['K','Exactitud', 'Optimo'],
-    #     [1,90, True],
-    #     [2,34, False],
-    #     [3,23, False],
-    #     [4,45, False],
-    #     [5,65, False],
-    #     [6,76, False],
-    #     [7,48, False],
-    #     [8,15, False],
-    #     [9,87, False],
-    #     [10,5, False],
-    # ]
     if(len(df)>=10):
         optimos = crossVal(df)
         pos = 25
         tk.Label(master, 
-                 text="K").grid(row=24,column=0)
+                 text="K").grid(row=25,column=0)
         tk.Label(master, 
-                 text="Promedios").grid(row=24,column=1)
+                 text="Promedios").grid(row=25,column=1)
         tk.Label(master, 
-                 text="Optimo/s").grid(row=24,column=2)
+                 text="Optimo/s").grid(row=25,column=2)
         kRankingTable = Table(master,optimos[1],pos)
-        tk.Label(text="Promedio: %.2f"%(optimos[0])).grid(row=25,column=3)
-        tk.Label(text="K óptimo Verdadero: "+str((optimos[2])[0])).grid(row=26,column=3)
-        tk.Label(text="Exactitud K Óptimo: %.2f"%optimos[2][1]).grid(row=27,column=3)
+        tk.Label(text="Promedio: %.2f"%(optimos[0])).grid(row=26,column=3)
+        tk.Label(text="K óptimo Verdadero: "+str((optimos[2])[0])).grid(row=27,column=3)
+        tk.Label(text="Exactitud K Óptimo: %.2f"%optimos[2][1]).grid(row=28,column=3)
 
     else:
         toplevel = Toplevel()
@@ -194,35 +181,36 @@ def getCSV ():
         if(len(data[0])==3):
             csvButton.grid_remove()
             tk.Label(master, 
-                 text="Vista Previa de los datos del CSV:").grid(row=9,column=1)
+                 text="Vista Previa de los datos del CSV:").grid(row=10,column=1)
             tk.Label(master, 
-                 text="X").grid(row=10,column=0)
+                 text="X").grid(row=11,column=0)
             tk.Label(master, 
-                     text="Y").grid(row=10,column=1)
+                     text="Y").grid(row=11,column=1)
             tk.Label(master, 
-                 text="Clases").grid(row=10,column=2)
-            table = Table(master,data,11);
+                 text="Clases").grid(row=11,column=2)
+            table = Table(master,data,11)
             tk.Button(master, 
-                  text='Calcular K Optimo', command=lambda: kRanking(df)).grid(row=22, 
+                  text='Calcular K Optimo', command=lambda: kRanking(df)).grid(row=23, 
                                                                column=1, 
                                                                sticky=tk.W, 
                                                                pady=0)
             tk.Button(master, 
-                  text='Graficar', command=lambda: getGraph(df)).grid(row=22, 
+                  text='Graficar', command=lambda: getGraph(df)).grid(row=23, 
                                                                column=2, 
                                                                sticky=tk.W, 
                                                                pady=0)
+            e2.delete(0, "end")
             csvUtils = cu.CSVUtilities()
             maxValue = csvUtils.getMax(df)
-            stepRec = maxValue/178.828782333
-            if(maxValue == 11.227815173855697):
+            stepRec = maxValue/53.6486347
+            """ if(maxValue == 11.227815173855697):
                 tk.Label(master,text='Step recomendado: %.4f'%(maxValue/93)).grid(row=5,column=0)
                 e2.insert(0, maxValue/93)
-            else:
-                tk.Label(master,text='Step recomendado: %.4f'%(stepRec)).grid(row=5,column=0)
-                e2.insert(0, stepRec)
+            else: """
+            tk.Label(master,text='Step recomendado: %.4f'%(stepRec)).grid(row=6,column=0)
+            e2.insert(0, stepRec)
             # tk.Button(master,text='Step Recomendado', command=lambda: getStepRecomendado(df)).grid(row=5, column=1, pady=0)
-            tk.Button(master,text='Cargar Otro Archivo', command=getCSV).grid(row=5, column=2, pady=0)
+            tk.Button(master,text='Cargar Otro Archivo', command=getCSV).grid(row=6, column=2, pady=0)
         else:
             toplevel = Toplevel()
             label1 = Label(toplevel, text='Archivo, Formato de archivo o separador incorrecto', height=0, width=50)
@@ -246,26 +234,26 @@ def getStepRecomendado(df):
 master = tk.Tk()
 master.title("KNN")
 tk.Label(master, 
-         text="Valor de K").grid(row=0)
+         text="Valor de K").grid(row=1)
 tk.Label(master, 
-         text="Step del Grid (Ej: 0.2, 0.5)").grid(row=3,column=0)
+         text="Step del Grid (Ej: 0.2, 0.5)").grid(row=4,column=0)
 tk.Label(master, 
-         text="Separador CSV (Ej: , ; -)").grid(row=4,column=0)
+         text="Separador CSV (Ej: , ; -)").grid(row=5,column=0)
 
 aboutK = tk.Button(master,text='K?', command=clickAboutK)
-aboutK.grid(row=0,column=1)
+aboutK.grid(row=1,column=1)
 
 aboutStep = tk.Button(master,text='Step?', command=clickAboutStep)
-aboutStep.grid(row=3,column=1)
+aboutStep.grid(row=4,column=1)
 
 tk.Label(master, 
-         text="Rango K Desde").grid(row=1,column=0)
+         text="Rango K Desde").grid(row=2,column=0)
 e4 = tk.Entry(master)
-e4.grid(row=1, column=2)
+e4.grid(row=2, column=2)
 tk.Label(master, 
-         text="Rango K Hasta").grid(row=2,column=0)
+         text="Rango K Hasta").grid(row=3,column=0)
 e5 = tk.Entry(master)
-e5.grid(row=2, column=2)
+e5.grid(row=3, column=2)
 
 comma = tk.StringVar()
 comma.set( "," )
@@ -274,13 +262,13 @@ comma.set( "," )
 e1 = tk.Entry(master)
 e2 = tk.Entry(master)
 e3 = tk.Entry(master, textvariable=comma)
-e1.grid(row=0, column=2)
-e2.grid(row=3, column=2)
-e3.grid(row=4, column=2)
+e1.grid(row=1, column=2)
+e2.grid(row=4, column=2)
+e3.grid(row=5, column=2)
 
 
 csvButton = tk.Button(master,text='Cargar Archivo CSV', command=getCSV)
-csvButton.grid(row=5, column=0, pady=4)
+csvButton.grid(row=6, column=0, pady=4)
 
 
 
