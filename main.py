@@ -29,7 +29,7 @@ from numpy.core.defchararray import isdigit
 def kRanking(df):
     if(len(df)>=10):
         optimos = crossVal(df)
-        pos = 25
+        pos = 26
         tk.Label(master, 
                  text="K").grid(row=25,column=0)
         tk.Label(master, 
@@ -188,7 +188,9 @@ def getCSV ():
                      text="Y").grid(row=11,column=1)
             tk.Label(master, 
                  text="Clases").grid(row=11,column=2)
-            table = Table(master,data,11)
+            # table = Table.limpiar(master)
+            table = Table(master,[["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],],12)
+            table = Table(master,data,12)
             tk.Button(master, 
                   text='Calcular K Optimo', command=lambda: kRanking(df)).grid(row=23, 
                                                                column=1, 
