@@ -9,6 +9,7 @@ import plotter as msg
 import loadCsv as cu
 from pruebaKFoldCrossValidation import crossValidation as crossVal
 from numpy.core.defchararray import isdigit
+from tkinter import messagebox
 
 # 5. Mostrar el K optimo (el valor de true)
 # 6. Mostrar la exactitud promedio
@@ -79,8 +80,14 @@ def getGraph(df):
                 label1.pack()
                 label2 = Label(toplevel, text='El valor del Step debe ser un número', height=0, width=50)
                 label2.pack()
-            plotter = msg.Plotter()
-            plotter.plotKnnGraphic(*tupleToPrint, K=K, minValue=minValue, maxValue=maxValue, step=step, etiquetas=tags, x_label=cabeceras[0], y_label=cabeceras[1])
+            if ( step < ((maxValue/53.6486347)*0.7) ):
+                MsgBox = tk.messagebox.askquestion ('Exit Application','El step ingresado es mucho menor al recomendado. Esto afectará al tiempo de ejecución considerablemente o podría provocar desbordamientos de memoria. ¿Está eguro que desea continuar?',icon = 'warning')
+                if MsgBox == 'yes':
+                    plotter = msg.Plotter()
+                    plotter.plotKnnGraphic(*tupleToPrint, K=K, minValue=minValue, maxValue=maxValue, step=step, etiquetas=tags, x_label=cabeceras[0], y_label=cabeceras[1])
+            else: 
+                plotter = msg.Plotter()
+                plotter.plotKnnGraphic(*tupleToPrint, K=K, minValue=minValue, maxValue=maxValue, step=step, etiquetas=tags, x_label=cabeceras[0], y_label=cabeceras[1])
         else:
             toplevel = Toplevel()
             label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
