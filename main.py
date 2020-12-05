@@ -248,11 +248,11 @@ aboutStep.grid(row=4,column=1)
 
 tk.Label(master, 
          text="Rango K Desde").grid(row=2,column=0)
-e4 = tk.Entry(master)
+e4 = tk.Entry(master, state=tk.DISABLED)
 e4.grid(row=2, column=2)
 tk.Label(master, 
          text="Rango K Hasta").grid(row=3,column=0)
-e5 = tk.Entry(master)
+e5 = tk.Entry(master, state=tk.DISABLED)
 e5.grid(row=3, column=2)
 
 comma = tk.StringVar()
@@ -267,12 +267,39 @@ e2.grid(row=4, column=2)
 e3.grid(row=5, column=2)
 
 
+# Create a Tkinter variable
+tkvar = StringVar(master)
+# Dictionary with options
+choices = { 'Único', 'Rango' }
+tkvar.set('Único') # set the default option
+popupMenu = OptionMenu(master, tkvar, *choices)
+Label(master, text="K a graficar").grid(row = 0, column = 0)
+popupMenu.grid(row = 0, column =1)
+# on change dropdown value
+def option_changed(e1, e4, e5):
+    print( tkvar.get() )
+    if (tkvar.get() == 'Rango'):
+        e1.delete(0, "end")
+        e1.configure(state=tk.DISABLED)
+        e4.configure(state=tk.NORMAL)
+        e5.configure(state=tk.NORMAL)
+        e1.grid(row=1, column=2)
+        e4.grid(row=2, column=2)
+        e5.grid(row=3, column=2)
+    else:
+        e4.delete(0, "end")
+        e5.delete(0, "end")
+        e1.configure(state=tk.NORMAL)
+        e4.configure(state=tk.DISABLED)
+        e5.configure(state=tk.DISABLED)
+        e1.grid(row=1, column=2)
+        e4.grid(row=2, column=2)
+        e5.grid(row=3, column=2)
+# link function to change dropdown
+tkvar.trace('w', lambda *args: option_changed(e1, e4, e5))
+
+
 csvButton = tk.Button(master,text='Cargar Archivo CSV', command=getCSV)
 csvButton.grid(row=6, column=0, pady=4)
-
-
-
-
-
 
 tk.mainloop()
