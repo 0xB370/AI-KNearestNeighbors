@@ -28,30 +28,21 @@ from tkinter import messagebox
 # 4- Sugerir el valor de step haciendo el calculo tamañoDataSet/step = 130
 
 def kRanking(df):
-    if(len(df)>=10):
-        MsgBox = tk.messagebox.askquestion ('Advertencia','El proceso de cáclulo a realizar conlleva un tiempo de procesamiento significativo. ¿Desea continuar?',icon = 'warning')
-        if MsgBox == 'yes':
-            optimos = crossVal(df)
-            pos = 26
-            tk.Label(master, 
-                    text="K").grid(row=25,column=0)
-            tk.Label(master, 
-                    text="Promedios").grid(row=25,column=1)
-            tk.Label(master, 
-                    text="Optimo/s").grid(row=25,column=2)
-            kRankingTable = Table(master,[["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],], pos)
-            kRankingTable = Table(master,optimos[1],pos)
-            tk.Label(text="Promedio: %.2f"%(optimos[0])).grid(row=26,column=3)
-            tk.Label(text="K óptimo Verdadero: "+str((optimos[2])[0])).grid(row=27,column=3)
-            tk.Label(text="Exactitud K Óptimo: %.2f"%optimos[2][1]).grid(row=28,column=3)
-
-    else:
-        """ toplevel = Toplevel()
-        label1 = Label(toplevel, text='Ocurrió un error, el dataset tiene', height=0, width=50)
-        label1.pack()
-        label2 = Label(toplevel, text='que tener al menos 10 datos. Para Calcular el valor optimo utlizamos 10-fold cross validation', height=0, width=50)
-        label2.pack() """
-        tk.messagebox.showerror (title='Ocurrió un error', message='El dataset tiene que tener al menos 10 datos.')
+    MsgBox = tk.messagebox.askquestion ('Advertencia','El proceso de cáclulo a realizar conlleva un tiempo de procesamiento significativo. ¿Desea continuar?',icon = 'warning')
+    if MsgBox == 'yes':
+        optimos = crossVal(df)
+        pos = 26
+        tk.Label(master, 
+                text="K").grid(row=25,column=0)
+        tk.Label(master, 
+                text="Promedios").grid(row=25,column=1)
+        tk.Label(master, 
+                text="Optimo/s").grid(row=25,column=2)
+        kRankingTable = Table(master,[["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],], pos)
+        kRankingTable = Table(master,optimos[1],pos)
+        tk.Label(text="Promedio: %.2f"%(optimos[0])).grid(row=26,column=3)
+        tk.Label(text="K óptimo Verdadero: "+str((optimos[2])[0])).grid(row=27,column=3)
+        tk.Label(text="Exactitud K Óptimo: %.2f"%optimos[2][1]).grid(row=28,column=3)
 
 
 

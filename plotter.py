@@ -84,7 +84,7 @@ class KnnClassifier():
     else:
       self.tagsEmp = etiquetas
 
-  def predict(self, x):
+  def predict(self, x, etiquetas=None):
     """Predicción de clase para cada elemento de x
     x -- (N x D)
     """
@@ -94,7 +94,10 @@ class KnnClassifier():
           for item in sublist:
               flat_list.append(item)
       self.y_train = flat_list
-    nof_classes = max(range(len(self.y_train)), key=self.y_train.__getitem__) + 2
+    if (etiquetas is None):
+      nof_classes = max(range(len(self.y_train)), key=self.y_train.__getitem__) + 2
+    else:
+      nof_classes = len(etiquetas) + 1
     predictions = []
     
     for x_test in x:
@@ -159,10 +162,10 @@ class knnHelper():
   def setXTest(self, x_test):
     self.x_test = x_test
 
-  def analyse(self):
+  def analyse(self, etiquetas=None):
     """Ejecución del clasificador sobre los puntos de prueba y separación de los mismos de acuerdo a las respectivas etiquetas"""
     # Búsqueda de etiquetas por puntos de prueba
-    self.y_test = self.nn.predict(self.x_test)
+    self.y_test = self.nn.predict(self.x_test, etiquetas=etiquetas)
     self.classified = []
     # Iteración sobre los labels disponibles
     for tag in range(self.nof_classes):

@@ -61,7 +61,7 @@ def crossValidation(df):
             # Le pasamos el set de testeo a nuestra función KNN
             knn.setXTest(x_test=x_test)
             # Predecimos con nuestra función los tags correspondientes al set de testeo pasado previamente
-            tagsPredicted = knn.analyse()
+            tagsPredicted = knn.analyse(etiquetas=etiquetasAcc)
             # Calculamos el puntaje de acierto de los tags predichos por nuestra función y lo anexamos a un array que contendrá todos los puntajes de acierto para cada iteración (recordar que en cada una varía el fold que se le asigna al set de testeo)
             if (y_test == tagsPredicted):
                 score = 1
