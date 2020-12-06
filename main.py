@@ -68,11 +68,6 @@ def getGraph(df):
             try:
                 K = int(e1.get())
             except:
-                """ toplevel = Toplevel()
-                label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
-                label1.pack()
-                label2 = Label(toplevel, text='El valor de K debe ser un entero', height=0, width=50)
-                label2.pack() """
                 tk.messagebox.showerror (title='Ocurrió un error', message='El valor de K debe ser un entero.')
             paso = e2.get()
             if ',' in paso:
@@ -80,11 +75,6 @@ def getGraph(df):
             try:
                 step = float(paso)
             except:
-                """ toplevel = Toplevel()
-                label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
-                label1.pack()
-                label2 = Label(toplevel, text='El valor del Step debe ser un número', height=0, width=50)
-                label2.pack() """
                 tk.messagebox.showerror (title='Ocurrió un error', message='El valor del Step debe ser un número.')
             if ( step < ((maxValue/53.6486347)*0.7) ):
                 MsgBox = tk.messagebox.askquestion ('Advertencia','El step ingresado es mucho menor al recomendado. Esto afectará al tiempo de ejecución considerablemente o podría provocar desbordamientos de memoria. ¿Está eguro que desea continuar?',icon = 'warning')
@@ -95,11 +85,6 @@ def getGraph(df):
                 plotter = msg.Plotter()
                 plotter.plotKnnGraphic(*tupleToPrint, K=K, minValue=minValue, maxValue=maxValue, step=step, etiquetas=tags, x_label=cabeceras[0], y_label=cabeceras[1])
         else:
-            """ toplevel = Toplevel()
-            label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
-            label1.pack()
-            label2 = Label(toplevel, text='Debe ingresar el valor del Step', height=0, width=50)
-            label2.pack() """
             tk.messagebox.showerror (title='Ocurrió un error', message='Debe ingresar el valor del Step.')
     elif( (len(e4.get()) > 0) and (len(e5.get()) > 0) and (len(e1.get())==0) ):
         if(len(e2.get())>0):
@@ -108,18 +93,8 @@ def getGraph(df):
                 e4int = int(e4.get())
                 e5int = int(e5.get())
                 if (e4int >= e5int):
-                    """ toplevel = Toplevel()
-                    label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
-                    label1.pack()
-                    label2 = Label(toplevel, text='El valor de "Rango K Desde" debe ser menor que "Rango K Hasta"', height=0, width=65)
-                    label2.pack() """
                     tk.messagebox.showerror (title='Ocurrió un error', message='El valor de "Rango K Desde" debe ser menor que "Rango K Hasta".')
             except:
-                """ toplevel = Toplevel()
-                label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
-                label1.pack()
-                label2 = Label(toplevel, text='El valor de K debe ser un entero', height=0, width=50)
-                label2.pack() """
                 tk.messagebox.showerror (title='Ocurrió un error', message='El valor de K debe ser un entero.')
             for k in range(int(e4.get()), int(e5.get()) + 1):
                 csvUtils = cu.CSVUtilities()
@@ -131,11 +106,6 @@ def getGraph(df):
                 try:
                     K = int(k)
                 except:
-                    """ toplevel = Toplevel()
-                    label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
-                    label1.pack()
-                    label2 = Label(toplevel, text='El valor de K debe ser un entero', height=0, width=50)
-                    label2.pack() """
                     tk.messagebox.showerror (title='Ocurrió un error', message='El valor de K debe ser un entero.')
                 paso = e2.get()
                 if ',' in paso:
@@ -143,11 +113,6 @@ def getGraph(df):
                 try:
                     step = float(paso)
                 except:
-                    """ toplevel = Toplevel()
-                    label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
-                    label1.pack()
-                    label2 = Label(toplevel, text='El valor del Step debe ser un número', height=0, width=50)
-                    label2.pack() """
                     tk.messagebox.showerror (title='Ocurrió un error', message='El valor del Step debe ser un número.')
                 plotter = msg.Plotter()
                 Kk=K
@@ -159,19 +124,10 @@ def getGraph(df):
                 y_label=cabeceras[1]
                 aux.append([*tupleToPrint, Kk, minValue, maxValue, step, etiquetas, x_label, y_label,int(e4.get()),int(e5.get()),len(tags)])
             plotter.variasGraficas(aux)
-        else:
-            """ toplevel = Toplevel()
-            label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
-            label1.pack()
-            label2 = Label(toplevel, text='Debe ingresar el valor del Step', height=0, width=50)
-            label2.pack()  """    
+        else:   
             tk.messagebox.showerror (title='Ocurrió un error', message='Debe ingresar el valor del Step.')       
     else:
-        toplevel = Toplevel()
-        label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
-        label1.pack()
-        label2 = Label(toplevel, text='Recuerde ingresar el K, o si usa Rangos, no ingrese el valor de K individual', height=0, width=100)
-        label2.pack()
+        tk.messagebox.showerror (title='Ocurrió un error', message='Recuerde ingresar el K, o si usa Rangos, no ingrese el valor de K individual.') 
 
 def clickAboutUniqueRange():
     MsgBox = tk.messagebox.showinfo(message="Al ingresar un único valor de K se obtendrá un gráfico con este único valor. Al ingresar un rango, se obtendrán múltiples gráficos cuyo valor de K variará entre los valores indicados. El tiempo de procesamiento de esta última opción es mayor dependiendo de la amplitud del rango ingresado.", title="Único/Rango Info")
