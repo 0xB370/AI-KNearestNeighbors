@@ -28,8 +28,7 @@ from tkinter import messagebox
 # 4- Sugerir el valor de step haciendo el calculo tamañoDataSet/step = 130
 
 def kRanking(df):
-    # if(len(df)>=10):
-    if(True):
+    if(len(df)>=10):
         MsgBox = tk.messagebox.askquestion ('Advertencia','El proceso de cáclulo a realizar conlleva un tiempo de procesamiento significativo. ¿Desea continuar?',icon = 'warning')
         if MsgBox == 'yes':
             optimos = crossVal(df)
@@ -47,11 +46,12 @@ def kRanking(df):
             tk.Label(text="Exactitud K Óptimo: %.2f"%optimos[2][1]).grid(row=28,column=3)
 
     else:
-        toplevel = Toplevel()
+        """ toplevel = Toplevel()
         label1 = Label(toplevel, text='Ocurrió un error, el dataset tiene', height=0, width=50)
         label1.pack()
         label2 = Label(toplevel, text='que tener al menos 10 datos. Para Calcular el valor optimo utlizamos 10-fold cross validation', height=0, width=50)
-        label2.pack()
+        label2.pack() """
+        tk.messagebox.showerror (title='Ocurrió un error', message='El dataset tiene que tener al menos 10 datos.')
 
 
 
@@ -68,22 +68,24 @@ def getGraph(df):
             try:
                 K = int(e1.get())
             except:
-                toplevel = Toplevel()
+                """ toplevel = Toplevel()
                 label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
                 label1.pack()
                 label2 = Label(toplevel, text='El valor de K debe ser un entero', height=0, width=50)
-                label2.pack()
+                label2.pack() """
+                tk.messagebox.showerror (title='Ocurrió un error', message='El valor de K debe ser un entero.')
             paso = e2.get()
             if ',' in paso:
                 paso = paso.replace(",", ".")
             try:
                 step = float(paso)
             except:
-                toplevel = Toplevel()
+                """ toplevel = Toplevel()
                 label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
                 label1.pack()
                 label2 = Label(toplevel, text='El valor del Step debe ser un número', height=0, width=50)
-                label2.pack()
+                label2.pack() """
+                tk.messagebox.showerror (title='Ocurrió un error', message='El valor del Step debe ser un número.')
             if ( step < ((maxValue/53.6486347)*0.7) ):
                 MsgBox = tk.messagebox.askquestion ('Advertencia','El step ingresado es mucho menor al recomendado. Esto afectará al tiempo de ejecución considerablemente o podría provocar desbordamientos de memoria. ¿Está eguro que desea continuar?',icon = 'warning')
                 if MsgBox == 'yes':
@@ -93,11 +95,12 @@ def getGraph(df):
                 plotter = msg.Plotter()
                 plotter.plotKnnGraphic(*tupleToPrint, K=K, minValue=minValue, maxValue=maxValue, step=step, etiquetas=tags, x_label=cabeceras[0], y_label=cabeceras[1])
         else:
-            toplevel = Toplevel()
+            """ toplevel = Toplevel()
             label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
             label1.pack()
             label2 = Label(toplevel, text='Debe ingresar el valor del Step', height=0, width=50)
-            label2.pack()
+            label2.pack() """
+            tk.messagebox.showerror (title='Ocurrió un error', message='Debe ingresar el valor del Step.')
     elif( (len(e4.get()) > 0) and (len(e5.get()) > 0) and (len(e1.get())==0) ):
         if(len(e2.get())>0):
             aux=[]
@@ -105,17 +108,19 @@ def getGraph(df):
                 e4int = int(e4.get())
                 e5int = int(e5.get())
                 if (e4int >= e5int):
-                    toplevel = Toplevel()
+                    """ toplevel = Toplevel()
                     label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
                     label1.pack()
                     label2 = Label(toplevel, text='El valor de "Rango K Desde" debe ser menor que "Rango K Hasta"', height=0, width=65)
-                    label2.pack()
+                    label2.pack() """
+                    tk.messagebox.showerror (title='Ocurrió un error', message='El valor de "Rango K Desde" debe ser menor que "Rango K Hasta".')
             except:
-                toplevel = Toplevel()
+                """ toplevel = Toplevel()
                 label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
                 label1.pack()
                 label2 = Label(toplevel, text='El valor de K debe ser un entero', height=0, width=50)
-                label2.pack()
+                label2.pack() """
+                tk.messagebox.showerror (title='Ocurrió un error', message='El valor de K debe ser un entero.')
             for k in range(int(e4.get()), int(e5.get()) + 1):
                 csvUtils = cu.CSVUtilities()
                 tupleToPrint = csvUtils.getTupleToPrint(df)
@@ -126,22 +131,24 @@ def getGraph(df):
                 try:
                     K = int(k)
                 except:
-                    toplevel = Toplevel()
+                    """ toplevel = Toplevel()
                     label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
                     label1.pack()
                     label2 = Label(toplevel, text='El valor de K debe ser un entero', height=0, width=50)
-                    label2.pack()
+                    label2.pack() """
+                    tk.messagebox.showerror (title='Ocurrió un error', message='El valor de K debe ser un entero.')
                 paso = e2.get()
                 if ',' in paso:
                     paso = paso.replace(",", ".")
                 try:
                     step = float(paso)
                 except:
-                    toplevel = Toplevel()
+                    """ toplevel = Toplevel()
                     label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
                     label1.pack()
                     label2 = Label(toplevel, text='El valor del Step debe ser un número', height=0, width=50)
-                    label2.pack()
+                    label2.pack() """
+                    tk.messagebox.showerror (title='Ocurrió un error', message='El valor del Step debe ser un número.')
                 plotter = msg.Plotter()
                 Kk=K
                 minValue=minValue
@@ -153,11 +160,12 @@ def getGraph(df):
                 aux.append([*tupleToPrint, Kk, minValue, maxValue, step, etiquetas, x_label, y_label,int(e4.get()),int(e5.get()),len(tags)])
             plotter.variasGraficas(aux)
         else:
-            toplevel = Toplevel()
+            """ toplevel = Toplevel()
             label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
             label1.pack()
             label2 = Label(toplevel, text='Debe ingresar el valor del Step', height=0, width=50)
-            label2.pack()            
+            label2.pack()  """    
+            tk.messagebox.showerror (title='Ocurrió un error', message='Debe ingresar el valor del Step.')       
     else:
         toplevel = Toplevel()
         label1 = Label(toplevel, text='Ocurrio un error', height=0, width=50)
