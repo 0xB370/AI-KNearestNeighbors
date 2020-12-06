@@ -28,8 +28,7 @@ from tkinter import messagebox
 # 4- Sugerir el valor de step haciendo el calculo tamañoDataSet/step = 130
 
 def kRanking(df):
-    # if(len(df)>=10):
-    if (1 == 1):
+    if(len(df)>=10):
         MsgBox = tk.messagebox.askquestion ('Advertencia','El proceso de cáclulo a realizar conlleva un tiempo de procesamiento significativo. ¿Desea continuar?',icon = 'warning')
         if MsgBox == 'yes':
             optimos = crossVal(df)
