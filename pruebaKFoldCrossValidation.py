@@ -9,9 +9,8 @@ from numpy.core.defchararray import isdigit
 def crossValidation(df):  
     x=df.iloc[:,[0,1]].values
     y=df.iloc[:,2].values
-    kRange = len(x) - 1
     # Definimos el rango de K a calcular
-    k = range(1,kRange)
+    kDS = len(x)
     # Creo un array con los distintos tags (Si en el dataset se tienen clasificaciones con tags 'C1' y 'C2', este array será ['C1', 'C2'])
     etiquetas = []
     newY = y
@@ -34,7 +33,7 @@ def crossValidation(df):
     res = []
     promediosArr = []
     # Para cada valor de K en el rango que definimos, se calcula la función KNN
-    for kValue in k:
+    for kValue in range(1,(kDS+1)):
         # Inicializamos el array para las predicciones 
         foldPred = []
         # Iteramos sobre la cantidad de folds, asignando a nuestro x_test e y_test un fold diferente en cada iteración
@@ -63,6 +62,7 @@ def crossValidation(df):
                         C[yx].append(elto)
             for ix in range(len(C)):
                 C[ix] = np.array(C[ix])
+            # print(C)
             # Le pasamos el set de entrenamiento ya formateado a nuestra función KNN. El valor de K variará en cada iteración
             
             knn = plt.knnHelper(*C, k=kValue, etiquetas=etiquetasAcc)
@@ -92,7 +92,7 @@ def crossValidation(df):
     acum = 0
     for el in res:
         acum += el[1]
-    avg = acum / kRange
+    avg = acum / kDS
     # Cortamos el array de respuesta a 10 elementos
     cutRes = res[0:10]
     return [avg, cutRes, res[posiciones[0]]]
