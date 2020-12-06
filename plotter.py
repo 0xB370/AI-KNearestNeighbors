@@ -95,7 +95,6 @@ class KnnClassifier():
     else:
       nof_classes = len(etiquetas) + 1
     predictions = []
-    
     for x_test in x:
       # Array de distancias entre el punto de prueba actual (x_test) y todos los puntos de "entrenamiento"
       distances = np.array([]) 
@@ -201,7 +200,7 @@ class knnHelper():
   def plot2(self, arrArgs):
     for ix, arrArg in enumerate(arrArgs):
       """Visualización de los resultados de la clasificación"""
-      print('ESTÁ PROCESANDO EL GRÁFICO ' + str(ix))
+      print('Se está procesando el gráfico ' + str(ix+1))
       maxim = arrArg[9]
       n = arrArg[8]
       knn = arrArg[7]

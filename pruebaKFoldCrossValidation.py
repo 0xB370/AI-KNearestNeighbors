@@ -33,6 +33,7 @@ def crossValidation(df):
     promediosArr = []
     # Para cada valor de K en el rango que definimos, se calcula la función KNN
     for kValue in range(1,(kDS+1)):
+        print('Se está procesando K =', kValue)
         # Inicializamos el array para las predicciones 
         foldPred = []
         # Iteramos sobre la cantidad de folds, asignando a nuestro x_test e y_test un fold diferente en cada iteración
