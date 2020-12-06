@@ -39,36 +39,26 @@ def crossValidation(df):
         # Iteramos sobre la cantidad de folds, asignando a nuestro x_test e y_test un fold diferente en cada iteración
         for j in range(len(x)):
             # Armamos los sets de entrenamiento y testeo correspondiente a esta iteración (recordar que en cada una cambia el fold para asignar al set de testeo)
-            x_train = []
-            y_train = []
+            C = []
+            for ix in range(len(etiquetasAcc)):
+                C.append([])
             # Como splittedX y splittedY tienen la misma longitud, podemos usar un solo for para tratar ambos
             for k in range(len(x)):
                 if (k != j):
-                    x_train.append(x[k])
-                    y_train.append(y[k])
+                    elto = []
+                    for item in x[k]:
+                        elto.append(item)
+                    for yx in range(len(etiquetasAcc)):
+                        if (y[k] == etiquetasAcc[yx]):
+                            C[yx].append(elto)
                 else:
                     x_test = [x[k]]
                     y_test = [y[k]]
             # Ya obtenidos los sets de entramiento y testeo, le damos el formato para pasarselo a nuestra función KNN y obtener las predicciones
-            C = []
-            for ix in range(len(etiquetasAcc)):
-                C.append([])
-            for ix in range(len(y_train)):
-                elto = []
-                for item in x_train[ix]:
-                    elto.append(item)
-                for yx in range(len(etiquetasAcc)):
-                    if (y_train[ix] == etiquetasAcc[yx]):
-                        C[yx].append(elto)
             for ix in range(len(C)):
                 C[ix] = np.array(C[ix])
-            # print(C)
             # Le pasamos el set de entrenamiento ya formateado a nuestra función KNN. El valor de K variará en cada iteración
-            
             knn = plt.knnHelper(*C, k=kValue, etiquetas=etiquetasAcc)
-            
-            # knn = plt.knnHelper(*C, k=kValue)
-
             # Le pasamos el set de testeo a nuestra función KNN
             knn.setXTest(x_test=x_test)
             # Predecimos con nuestra función los tags correspondientes al set de testeo pasado previamente

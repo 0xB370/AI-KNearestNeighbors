@@ -168,23 +168,9 @@ def clickAboutUniqueRange():
     MsgBox = tk.messagebox.showinfo(message="Al ingresar un único valor de K se obtendrá un gráfico con este único valor. Al ingresar un rango, se obtendrán múltiples gráficos cuyo valor de K variará entre los valores indicados. El tiempo de procesamiento de esta última opción es mayor dependiendo de la amplitud del rango ingresado.", title="Único/Rango Info")
 
 def clickAboutK():
-    """ toplevel = Toplevel()
-    label1 = Label(toplevel, text='K: Es el valor que indica la cantidad de vecinos que se evaluarán para una nueva instancia a clasificar.', height=0, width=100)
-    label1.pack()
-    label2 = Label(toplevel, text=' Tenga en cuenta que cuando mayor es K mayor es el tiempo de procesamiento.', height=0, width=100)
-    label2.pack()   """
     MsgBox = tk.messagebox.showinfo(message="K: Es el valor que indica la cantidad de vecinos que se evaluarán para una nueva instancia a clasificar. Tenga en cuenta que cuanto mayor sea el valor de K, mayor será el tiempo de procesamiento.", title="K Info")
 
 def clickAboutStep():
-    """ toplevel = Toplevel()
-    label1 = Label(toplevel, text='Es el valor que indica la cantidad de saltos para armar el Grid.', height=0, width=110)
-    label1.pack()
-    label3 = Label(toplevel, text='Ej: Si el valor es 0.5 tendremos saltos de 0.5 al armar el grid 0.5, 1, 1.5, 2, 2.5.', height=0, width=110)
-    label3.pack()
-    label2 = Label(toplevel, text='Tenga en cuenta que cuando menor es el step, mayor es el tiempo de procesamiento.', height=0, width=100)
-    label2.pack() 
-    label4 = Label(toplevel, text='Recomendamos usar el valor sugerido', height=0, width=100)
-    label4.pack()"""
     MsgBox = tk.messagebox.showinfo(message="Es el valor que indica la cantidad de saltos para armar el Grid. Ej: Si el valor es 0.5 tendremos saltos de 0.5 al armar el grid 0.5, 1, 1.5, 2, 2.5. Tenga en cuenta que cuanto menor sea el step, mayor será el tiempo de procesamiento. Recomendamos usar el valor sugerido.", title="Step Info")
 
 def getCSV ():
@@ -220,10 +206,6 @@ def getCSV ():
             csvUtils = cu.CSVUtilities()
             maxValue = csvUtils.getMax(df)
             stepRec = maxValue/53.6486347
-            """ if(maxValue == 11.227815173855697):
-                tk.Label(master,text='Step recomendado: %.4f'%(maxValue/93)).grid(row=5,column=0)
-                e2.insert(0, maxValue/93)
-            else: """
             tk.Label(master,text='Step recomendado: %.4f'%(stepRec)).grid(row=6,column=0)
             e2.insert(0, stepRec)
             # tk.Button(master,text='Step Recomendado', command=lambda: getStepRecomendado(df)).grid(row=5, column=1, pady=0)
