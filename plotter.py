@@ -91,7 +91,7 @@ class KnnClassifier():
     if isinstance(self.y_train[0], np.ndarray):
       self.y_train = np.concatenate(self.y_train, axis=0)
     if (etiquetas is None):
-      nof_classes = max(range(len(self.y_train)), key=self.y_train.__getitem__) + 2
+      nof_classes = max(self.y_train) + 2
     else:
       nof_classes = len(etiquetas) + 1
     predictions = []
