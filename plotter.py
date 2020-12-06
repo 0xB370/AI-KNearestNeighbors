@@ -89,11 +89,7 @@ class KnnClassifier():
     x -- (N x D)
     """
     if isinstance(self.y_train[0], np.ndarray):
-      flat_list = []
-      for sublist in self.y_train:
-          for item in sublist:
-              flat_list.append(item)
-      self.y_train = flat_list
+      self.y_train = np.concatenate(self.y_train, axis=0)
     if (etiquetas is None):
       nof_classes = max(range(len(self.y_train)), key=self.y_train.__getitem__) + 2
     else:
