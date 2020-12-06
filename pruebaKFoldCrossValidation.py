@@ -1,6 +1,5 @@
 import numpy as np
 from sklearn.model_selection import KFold
-from sklearn.metrics import accuracy_score
 import plotter as plt
 from operator import itemgetter
 from plotter import UtilsFunctions
@@ -64,7 +63,10 @@ def crossValidation(df):
             # Predecimos con nuestra función los tags correspondientes al set de testeo pasado previamente
             tagsPredicted = knn.analyse()
             # Calculamos el puntaje de acierto de los tags predichos por nuestra función y lo anexamos a un array que contendrá todos los puntajes de acierto para cada iteración (recordar que en cada una varía el fold que se le asigna al set de testeo)
-            score = accuracy_score(y_test, tagsPredicted)
+            if (y_test == tagsPredicted):
+                score = 1
+            else:
+                score = 0
             foldPred.append(score)
         # Se calcula el promedio de todos los puntajes de acierto obtenidos para un valor de K
         promedio = (sum(foldPred)) / (len(foldPred))
