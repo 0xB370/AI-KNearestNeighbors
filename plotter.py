@@ -64,22 +64,25 @@ class UtilsFunctions():
 
 class KnnClassifier():
   """Clasificador k-Nearest Neighbor"""
-  def __init__(self, x, y, k=1):   
+  def __init__(self, x, y, k=1, etiquetas=None):   
     self.k = k
     self.x_train = x
     self.y_train = y
-    newY = y
-    self.tagsEmp = []
-    if isinstance(newY[0], np.ndarray):
-      for subArr in newY:
-        while len(subArr) > 0:
-          self.tagsEmp.append(subArr[0])
-          subArr = list(filter(lambda y : y != subArr[0], subArr))
+    if (etiquetas is None):
+      newY = y
+      self.tagsEmp = []
+      if isinstance(newY[0], np.ndarray):
+        for subArr in newY:
+          while len(subArr) > 0:
+            self.tagsEmp.append(subArr[0])
+            subArr = list(filter(lambda y : y != subArr[0], subArr))
+      else:
+        while len(newY) > 0:
+            self.tagsEmp.append(newY[0])
+            newY = list(filter(lambda y : y != newY[0], newY))
+      self.tagsEmp.append(self.tagsEmp[len(self.tagsEmp)-1] + 1)
     else:
-      while len(newY) > 0:
-          self.tagsEmp.append(newY[0])
-          newY = list(filter(lambda y : y != newY[0], newY))
-    self.tagsEmp.append(self.tagsEmp[len(self.tagsEmp)-1] + 1)
+      self.tagsEmp = etiquetas
 
   def predict(self, x):
     """Predicción de clase para cada elemento de x
@@ -124,7 +127,7 @@ class KnnClassifier():
 class knnHelper():
   """Aplicación de kNearestNeighbor a los puntos de prueba"""
 
-  def __init__(self, *x, k=1):
+  def __init__(self, *x, k=1, etiquetas=None):
     """Inicialización del clasificador
     k -- número de vecinos más cercanos
     """
@@ -138,7 +141,11 @@ class knnHelper():
     # Creación de un flat array para NearestNeighbor
     x = np.concatenate(x, axis=0)
     # Inicialización de clasificador
-    self.nn = KnnClassifier(x, y, k)
+    if (etiquetas is None):
+      self.nn = KnnClassifier(x, y, k)
+    else:
+      self.nn = KnnClassifier(x, y, k, etiquetas=etiquetas)
+    # self.nn = KnnClassifier(x, y, k)
    
   def generateGridPoints(self, min=0, max=2, step=0.01):
     """Generación del grid con los puntos de prueba"""

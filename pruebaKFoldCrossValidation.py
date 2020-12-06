@@ -64,7 +64,11 @@ def crossValidation(df):
             for ix in range(len(C)):
                 C[ix] = np.array(C[ix])
             # Le pasamos el set de entrenamiento ya formateado a nuestra función KNN. El valor de K variará en cada iteración
-            knn = plt.knnHelper(*C, k=kValue)
+            
+            knn = plt.knnHelper(*C, k=kValue, etiquetas=etiquetasAcc)
+            
+            # knn = plt.knnHelper(*C, k=kValue)
+
             # Le pasamos el set de testeo a nuestra función KNN
             knn.setXTest(x_test=x_test)
             # Predecimos con nuestra función los tags correspondientes al set de testeo pasado previamente
