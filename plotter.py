@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import collections as col
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
 # Paleta de colores para la gráfica
 paleta_colores = ('r', 'b', 'g', 'c', 'm', 'y', 'k')
 
@@ -169,7 +171,7 @@ class knnHelper():
   def getClassified(self):
     return self.classified
 
-  def plot(self, t='', K=5, etiquetas=[], x_label="X", y_label="Y"):
+  def plot(self, t='', K=5, etiquetas=[], x_label="X", y_label="Y", main=""):
     """Visualización de los resultados de la clasificación"""
     plot = init_plot(self.range, self.range, x_label=x_label, y_label=y_label)
     plot.set_title(t)
@@ -190,7 +192,13 @@ class knnHelper():
         plot.plot(*x.T, paleta_colores[i] + 'h', alpha=0.4)
     fig = plt.figure(1)
     fig.canvas.set_window_title('KNN with K=' + str(K))
-    plt.show()
+    canvas = FigureCanvasTkAgg(fig, master=main)
+    for item in canvas.get_tk_widget().find_all():
+       canvas.get_tk_widget().delete(item)
+    canvas = FigureCanvasTkAgg(fig, master=main)
+    canvas.get_tk_widget().grid(row=26,column=1)
+    canvas.draw()
+    # plt.show()
 
   def plot2(self, arrArgs):
     for ix, arrArg in enumerate(arrArgs):
@@ -225,12 +233,12 @@ class knnHelper():
     plt.show()
 
 class Plotter: 
-  def plotKnnGraphic(self, *tupleToPrint, K, minValue, maxValue, step, etiquetas, x_label, y_label):
+  def plotKnnGraphic(self, *tupleToPrint, K, minValue, maxValue, step, etiquetas, x_label, y_label, main):
     knn = knnHelper(*tupleToPrint, k=K)
     knn.generateGridPoints(min=minValue, max=maxValue, step=step)
     knn.analyse()
     kStr = str(K)
-    knn.plot(t='KNN Classifier with K = '+kStr, K=K, etiquetas=etiquetas, x_label=x_label, y_label=y_label)
+    knn.plot(t='KNN Classifier with K = '+kStr, K=K, etiquetas=etiquetas, x_label=x_label, y_label=y_label, main=main)
 
   def variasGraficas(self,arrArgs):
     aux = []
