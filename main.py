@@ -29,18 +29,20 @@ from tkinter import messagebox
 
 def kRanking(df):
     if(len(df)>=10):
-        optimos = crossVal(df)
-        pos = 26
-        tk.Label(master, 
-                 text="K").grid(row=25,column=0)
-        tk.Label(master, 
-                 text="Promedios").grid(row=25,column=1)
-        tk.Label(master, 
-                 text="Optimo/s").grid(row=25,column=2)
-        kRankingTable = Table(master,optimos[1],pos)
-        tk.Label(text="Promedio: %.2f"%(optimos[0])).grid(row=26,column=3)
-        tk.Label(text="K óptimo Verdadero: "+str((optimos[2])[0])).grid(row=27,column=3)
-        tk.Label(text="Exactitud K Óptimo: %.2f"%optimos[2][1]).grid(row=28,column=3)
+        MsgBox = tk.messagebox.askquestion ('Advertencia','El proceso de cáclulo a realizar conlleva un tiempo de procesamiento significativo. ¿Desea continuar?',icon = 'warning')
+        if MsgBox == 'yes':
+            optimos = crossVal(df)
+            pos = 26
+            tk.Label(master, 
+                    text="K").grid(row=25,column=0)
+            tk.Label(master, 
+                    text="Promedios").grid(row=25,column=1)
+            tk.Label(master, 
+                    text="Optimo/s").grid(row=25,column=2)
+            kRankingTable = Table(master,optimos[1],pos)
+            tk.Label(text="Promedio: %.2f"%(optimos[0])).grid(row=26,column=3)
+            tk.Label(text="K óptimo Verdadero: "+str((optimos[2])[0])).grid(row=27,column=3)
+            tk.Label(text="Exactitud K Óptimo: %.2f"%optimos[2][1]).grid(row=28,column=3)
 
     else:
         toplevel = Toplevel()
@@ -81,7 +83,7 @@ def getGraph(df):
                 label2 = Label(toplevel, text='El valor del Step debe ser un número', height=0, width=50)
                 label2.pack()
             if ( step < ((maxValue/53.6486347)*0.7) ):
-                MsgBox = tk.messagebox.askquestion ('Exit Application','El step ingresado es mucho menor al recomendado. Esto afectará al tiempo de ejecución considerablemente o podría provocar desbordamientos de memoria. ¿Está eguro que desea continuar?',icon = 'warning')
+                MsgBox = tk.messagebox.askquestion ('Advertencia','El step ingresado es mucho menor al recomendado. Esto afectará al tiempo de ejecución considerablemente o podría provocar desbordamientos de memoria. ¿Está eguro que desea continuar?',icon = 'warning')
                 if MsgBox == 'yes':
                     plotter = msg.Plotter()
                     plotter.plotKnnGraphic(*tupleToPrint, K=K, minValue=minValue, maxValue=maxValue, step=step, etiquetas=tags, x_label=cabeceras[0], y_label=cabeceras[1])
@@ -161,23 +163,28 @@ def getGraph(df):
         label2 = Label(toplevel, text='Recuerde ingresar el K, o si usa Rangos, no ingrese el valor de K individual', height=0, width=100)
         label2.pack()
 
+def clickAboutUniqueRange():
+    MsgBox = tk.messagebox.showinfo(message="Al ingresar un único valor de K se obtendrá un gráfico con este único valor. Al ingresar un rango, se obtendrán múltiples gráficos cuyo valor de K variará entre los valores indicados. El tiempo de procesamiento de esta última opción es mayor dependiendo de la amplitud del rango ingresado.", title="Único/Rango Info")
+
 def clickAboutK():
-    toplevel = Toplevel()
+    """ toplevel = Toplevel()
     label1 = Label(toplevel, text='K: Es el valor que indica la cantidad de vecinos que se evaluarán para una nueva instancia a clasificar.', height=0, width=100)
     label1.pack()
     label2 = Label(toplevel, text=' Tenga en cuenta que cuando mayor es K mayor es el tiempo de procesamiento.', height=0, width=100)
-    label2.pack()  
+    label2.pack()   """
+    MsgBox = tk.messagebox.showinfo(message="K: Es el valor que indica la cantidad de vecinos que se evaluarán para una nueva instancia a clasificar. Tenga en cuenta que cuanto mayor sea el valor de K, mayor será el tiempo de procesamiento.", title="K Info")
 
 def clickAboutStep():
-    toplevel = Toplevel()
+    """ toplevel = Toplevel()
     label1 = Label(toplevel, text='Es el valor que indica la cantidad de saltos para armar el Grid.', height=0, width=110)
     label1.pack()
     label3 = Label(toplevel, text='Ej: Si el valor es 0.5 tendremos saltos de 0.5 al armar el grid 0.5, 1, 1.5, 2, 2.5.', height=0, width=110)
     label3.pack()
-    label2 = Label(toplevel, text='Tenga en cuenta que cuando mayor es el step mayor es el tiempo de procesamiento.', height=0, width=100)
+    label2 = Label(toplevel, text='Tenga en cuenta que cuando menor es el step, mayor es el tiempo de procesamiento.', height=0, width=100)
     label2.pack() 
     label4 = Label(toplevel, text='Recomendamos usar el valor sugerido', height=0, width=100)
-    label4.pack()  
+    label4.pack()"""
+    MsgBox = tk.messagebox.showinfo(message="Es el valor que indica la cantidad de saltos para armar el Grid. Ej: Si el valor es 0.5 tendremos saltos de 0.5 al armar el grid 0.5, 1, 1.5, 2, 2.5. Tenga en cuenta que cuanto menor sea el step, mayor será el tiempo de procesamiento. Recomendamos usar el valor sugerido.", title="Step Info")
 
 def getCSV ():
     separator = e3.get()
@@ -199,7 +206,7 @@ def getCSV ():
             table = Table(master,[["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],["","",""],],12)
             table = Table(master,data,12)
             tk.Button(master, 
-                  text='Calcular K Optimo', command=lambda: kRanking(df)).grid(row=23, 
+                  text='Calcular K Óptimo', command=lambda: kRanking(df)).grid(row=23, 
                                                                column=1, 
                                                                sticky=tk.W, 
                                                                pady=0)
@@ -249,6 +256,9 @@ tk.Label(master,
 tk.Label(master, 
          text="Separador CSV (Ej: , ; -)").grid(row=5,column=0)
 
+aboutUniqueRange = tk.Button(master,text='Único/Rango?', command=clickAboutUniqueRange)
+aboutUniqueRange.grid(row=0,column=1)
+
 aboutK = tk.Button(master,text='K?', command=clickAboutK)
 aboutK.grid(row=1,column=1)
 
@@ -283,10 +293,9 @@ choices = { 'Único', 'Rango' }
 tkvar.set('Único') # set the default option
 popupMenu = OptionMenu(master, tkvar, *choices)
 Label(master, text="K a graficar").grid(row = 0, column = 0)
-popupMenu.grid(row = 0, column =1)
+popupMenu.grid(row = 0, column =2)
 # on change dropdown value
 def option_changed(e1, e4, e5):
-    print( tkvar.get() )
     if (tkvar.get() == 'Rango'):
         e1.delete(0, "end")
         e1.configure(state=tk.DISABLED)
